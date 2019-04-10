@@ -1,0 +1,60 @@
+---
+title: "Pre-Workshop Setup"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Location
+
+We will be in 527 Buller on both days. The workshop on Wednesday (April 10) will run from 9:30-16:30, with a one hour break for lunch. On Thursday we will meet from 9:30-15:00 with a 45 minute break for lunch. The Microbiology Departmental seminar will start at 15:30.
+
+## Requirements
+
+This workshop will be hands-on, so attendees are strongly encouraged to bring and use your own computer. This will ensure that when you leave the workshop you have a proper setup of tools for an efficient workflow going forward. You will need R, RStudio, and a spreadsheet program (e.g., Excel or [LibreOffice](https://www.libreoffice.org/download/download/)). The instructions below will guide your installation and setup of R and RStudio.
+
+## Setup Instructions
+
+**R** and **RStudio** require separate installations. **R** is the underlying statistical computing environment. RStudio is a graphical integrated development environment (IDE). You can think of R as the engine, and RStudio as the car. You need to install **R** before you install RStudio. **R** and **RStudio** should both be installed prior to attending the workshop. I have not budgeted any workshop time for assisting with installation issues and we will begin promptly at 9:30am on Wednesday.
+
+### Windows
+
+##### If you don't have R and RStudio installed
+1) Download R from the [CRAN](https://cran.r-project.org/bin/windows/base/release.htm) website
+2) Run the `.exe` file that was just downloaded
+3) Go to the [RStudio Development Page](https://www.rstudio.com/products/rstudio/download/#download)
+4) Under *Installers* select **RStudio x.yy.zz - Windows Vista/7/8/10*)* (where x, y, and z represent version numbers)
+5) Double click the file to install it
+6) Once it's installed, open RStudio to make sure it works and you don't get any error messages.
+
+##### If you already have R and RStudio installed
+1) Open RStudio, and click on “Help” > “Check for updates”. If a new version is available, quit RStudio, and download the latest version for RStudio.
+2) To check which version of R you are using, start RStudio and the first thing that appears in the console indicates the version of R you are running. Alternatively, you can type `sessionInfo()`, which will also display which version of R you are running. Go on the [CRAN](https://cran.r-project.org/bin/windows/base/release.htm) website and check whether a more recent version is available. If so, please download and install it. You can [check here](https://cran.r-project.org/bin/windows/base/rw-FAQ.html#How-do-I-UNinstall-R_003f) for more information on how to remove old versions from your system if you wish to do so.
+
+### macOS
+
+##### If you don’t have R and RStudio installed
+1) Download R from the [CRAN](https://cran.r-project.org/bin/macosx/) website.
+2) Select the `.pkg` file for the latest R version
+3) Double click on the downloaded file to install R
+4) It is also a good idea to install [XQuartz](https://www.xquartz.org/), which is needed by some packages
+5) Go to the [RStudio download page](https://www.rstudio.com/products/rstudio/download/#download)
+6) Under Installers select **RStudio x.yy.zzz - Mac OS X 10.6+ (64-bit)** (where x, y, and z represent version numbers)
+7) Double click the file to install RStudio
+8) Once it’s installed, open RStudio to make sure it works and you don’t get any error messages.
+
+##### If you already have R and RStudio installed
+1) Open RStudio, and click on “Help” > “Check for updates”. If a new version is available, quit RStudio, and download the latest version for RStudio.
+2) To check the version of R you are using, start RStudio and the first thing that appears on the terminal indicates the version of R you are running. Alternatively, you can type `sessionInfo()`, which will also display which version of R you are running. Go on the [CRAN](https://cran.r-project.org/bin/macosx/) website and check whether a more recent version is available. If so, please download and install it.
+
+### Linux
+1) Follow the instructions for your distribution from [CRAN](https://cloud.r-project.org/bin/linux/), they provide information to get the most recent version of R for common distributions. For most distributions, you could use your package manager (e.g., for Debian/Ubuntu run `sudo apt-get install r-base`, and for Fedora `sudo yum install R`), but we don’t recommend this approach as the versions provided by this are usually out of date. In any case, make sure you have at least R 3.3.1.
+2) Go to the [RStudio download page](https://www.rstudio.com/products/rstudio/download/#download)
+3) Under Installers select the version that matches your distribution, and install it with your preferred method (e.g., with Debian/Ubuntu `sudo dpkg -i rstudio-x.yy.zzz-amd64.deb` at the terminal).
+4) Once it’s installed, open RStudio to make sure it works and you don’t get any error messages.
+
+## Credit
+Credit for installation instructions and much of the first day of the workshop is to The Carpentries, and the Data Analysis and Visualization in R for Ecologist lesson ([Contributors and Citation here](http://datacarpentry.org/R-ecology-lesson/CITATION))

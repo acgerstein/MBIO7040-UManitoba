@@ -1,0 +1,54 @@
+---
+title: "R Data Analysis and Visualization Workshop"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#### April 10 & 11, 2019
+
+
+### [Pre-Workshop Setup](./00-Setup.html)  
+
+## Workshop Lessons:  
+
+### 1. [Spreadsheets](./01-Spreadsheets.html)  
+*  Implement best practices in data table formatting  
+*  Identify and address common formatting mistakes  
+Download the data for the spreadsheet exercise [here](https://ndownloader.figshare.com/files/2252083).
+
+### 2. [Why R (and R Studio)?](./02-Intro.html)
+*  Describe the purpose of the RStudio Script, Console, Environment, and Plots panes.
+*  Organize files and directories for a set of analyses as an R Project, and understand the purpose of the working directory.
+*  Use the built-in RStudio help interface to search for more information on R functions.
+*  Demonstrate how to provide sufficient information for troubleshooting with the R user community.
+Download the Day 1 Code Handout [here](./Day1_code_handout.R)
+
+### 3. [Introduction to R](./03-R_Start.html)  
+*  Define the following terms as they relate to R: object, assign, call, function, arguments, options.   
+*  Assign values to objects in R.   
+*  Learn how to name objects   
+*  Use comments to inform script.   
+*  Solve simple arithmetic operations in R.   
+*  Call functions and use arguments to change their default options.   
+*  Inspect the content of vectors and manipulate their content.   
+*  Subset and extract values from vectors.   
+*  Analyze vectors with missing data. 
+
+### 4. [Starting with Data](./04-Data_Start.html)  
+*  Describe what the `here` package does
+*  Read in tibbles
+*  Compare `read_csv` to `read.csv`
+*  Extract values from tibbles
+*  Perform basic operations on columns in a tibble.
+
+### 5. [Manipulating Data with dplyr](./05-dplyr.html)  
+*  Describe what the dplyr package in R is used for.  
+*  Apply common dplyr functions to manipulate data in R.  
+*  Employ the ‘pipe’ operator to link together a sequence of functions.  
+*  Employ the ‘mutate’ function to apply other chosen functions to existing columns and create new columns of data.  
+*  Employ the ‘split-apply-combine’ concept to split the data into groups, apply analysis to each group, and combine the results.  
+*  Convert tibbles from long to wide and back again

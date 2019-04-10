@@ -1,0 +1,90 @@
+---
+title: "Loading Data"
+output:
+  html_document:
+    theme: cerulean
+---
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(here)
+```
+
+---
+
+<div class="alert alert-info">
+<strong>Learning Objectives</strong>
+
+* Load external data with `read_csv` from a .csv file into a tibble.   
+* Describe what a tibble is.   
+* Compare the contents of a tibble to a data frame
+
+</div>
+
+---
+
+
+# Importing Data
+
+["From Modern Dive Section 5.1"](https://moderndive.com/5-tidy.html#tidy)
+
+Almost everything you are typically going to do in R will require you to load data (at least at first), typically stored in a spreadsheet.
+
+Spreadsheet data is often saved in one of the following formats:
+
+* A *Comma Separated Values* `.csv` file. You can think of a `.csv` file as a bare-bones spreadsheet where:    
+    * Each line in the file corresponds to one row of data/one observation.  
+    * Values for each line are separated with commas. In other words, the values of different variables are separated by commas.  
+    * The first line is often, but not always, a header row indicating the names of the columns/variables.  
+* An Excel `.xlsx` file. This format is based on Microsoft’s proprietary Excel software. As opposed to a bare-bones `.csv` files, `.xlsx` Excel files sometimes contain a lot of meta-data, or put more simply, data about the data. Some examples of spreadsheet meta-data include the use of bold and italic fonts, colored cells, different column widths, and formula macros.  
+* A Google Sheets file, which is a “cloud” or online-based way to work with a spreadsheet. Google Sheets allows you to download your data in both comma separated values `.csv` and Excel `.xlsx` formats however: go to the Google Sheets menu bar -> File -> Download as -> Select “Microsoft Excel” or “Comma-separated values.”
+
+Here we’ll cover two methods for importing `.csv` and `.xlsx` spreadsheet data: using the console and using RStudio's graphical user interface (GUI).
+
+### Using the console
+
+First, let’s import a Comma Separated Values `.csv` file of data directly off the internet. The `.csv` file dem_score.csv accessible at https://moderndive.com/data/dem_score.csv contains ratings of the level of democracy in different countries spanning 1952 to 1992. Let’s use the `read_csv()` function from the `readr` package (loaded automatically with `library(tidyverse)`) to read it off the web, import it into R, and save it in a data frame called `dem_score`
+
+```{r}
+library(tidyverse)
+dem_score_tbl <- read_csv("https://moderndive.com/data/dem_score.csv", col_type = cols())
+dem_score_tbl
+```
+
+Note that the `read_csv()` function is different than the `read.csv()` function. Among other things, `read_csv()` will store the data as a tibble and `read.csv()` (which is the built-in function in base R) will store the data as a data frame.
+
+### Using the GUI interface
+
+<div class ="box">
+### EXERCISE
+Let’s read in the exact same data saved in Excel format, but this time via RStudio’s graphical interface instead of via the R console. First download the Excel file `dem_score.xlsx` by clicking ["here"](https://moderndive.com/data/dem_score.xlsx), then 
+    1. Go to the Files panel of RStudio.   
+    2. Navigate to the directory i.e. folder on your computer where the downloaded `dem_score.xlsx` Excel file is saved.  
+    3. Click on dem_score.xlsx.  
+    4. Click “Import Dataset…”
+
+At this point you should see an image like this:
+
+<div style="margin-bottom:50px;">
+</div>
+```{r, echo=FALSE, out.width = '75%', fig.pos = "H"}
+knitr::include_graphics(here("Images", "read_excel.png"))
+```
+<div style="margin-bottom:50px;">
+</div>
+
+After clicking on the “Import” button on the bottom right RStudio, RStudio will save this spreadsheet’s data in a data frame called `dem_score` and display its contents in the spreadsheet viewer. Furthermore, note in the bottom right of the above image there exists a “Code Preview”: you can copy and paste this code to reload your data again later automatically instead of repeating the above manual point-and-click process.
+</div>
+
+Note that both methods have imported the data as a tibble. Just for fun we can compare this to the same file loaded using `read.csv()`:
+
+```{r}
+dem_score_df <- read.csv("https://moderndive.com/data/dem_score.csv")
+head(dem_score_df)
+```
+
+Notice that I've used `head`, which gives me only the first 6 rows of the data sheet. What happens if you type `dem_score_df` into the console? Note that this is different than when we read in `dem_score` as a tibble.
+

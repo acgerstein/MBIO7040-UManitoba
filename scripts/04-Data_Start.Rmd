@@ -1,0 +1,240 @@
+---
+title: "Data Start"
+output:
+  html_document:
+    theme: cerulean
+---
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(tidyverse)
+library(kableExtra)
+```
+
+---
+
+<div class="alert alert-info">
+<strong>Learning Objectives</strong>
+
+*  Describe what the `here` package does
+*  Read in tibbles
+*  Compare `read_csv` to `read.csv`
+*  Extract values from tibbles
+*  Perform basic operations on columns in a tibble.
+</div>
+
+---
+
+Today we going to study a population of *Escherichia coli* (designated Ara-3), which were propagated for more than 40,000 generations in a glucose-limited minimal medium. This medium was supplemented with citrate, which the ancestral *E. coli* cannot metabolize in the aerobic conditions of the experiment. Sequencing of the populations at regular time points revealed that spontaneous citrate-using mutants (Cit+) appeared at around 31,000 generations in one of twelve populations. For more information see (REF). This metadata describes information on the Ara-3 clones and the columns represent:
+
+The dataset is stored as a comma separated value (CSV) file. Each row holds information for a single animal, and the columns represent:
+
+```{r, echo=FALSE}
+knitr::kable(
+  tibble(Column=	c("sample", "generation", "clade", "strain", "cit", "run", "genome_size"), Description = c("clone name", "generation when sample frozen", "based on a parsimony tree", "ancestral strain", "citrate-using mutant status", "sequence read archive sample ID", "size in Mbp (made up for this lesson)")), caption = 'Data dictionary.'
+) 
+```
+
+Note this type of information is often called *metadata* and this table refereed to as a *data dictionary*.
+
+First we are going to download the metadata file using the `download.file()` function and the `here` function.
+
+<div class="boxGrey">
+
+### The here package
+See posts by [Jenny Bryan](https://github.com/jennybc/here_here) and [Malcolm Barrett](https://malco.io/2018/11/05/why-should-i-use-the-here-package/)
+
+RStudio projects let us set up a local working directory, which makes it easier for someone else to access your files with the same folder and file structure.  
+The `here` package lets us write file paths that work across operating systems: it detects the root directory and writes lets us build paths accordingly. Within a RProject the root directory where your `*.Rproj` file is. This is one reason why for each project you should only have one `*.Rproj` file.
+
+```{r}
+getwd()   #  prints out my working directory
+dir()     #  prints out what is in my working directory
+library(here) #  load the here package 
+```
+
+Importantly, this allows us to read and write files based on the working directory at the time when the package was loaded, i.e., the place where the `*.Rproj` file is.
+</div>
+
+```{r}
+library(here)
+library(tidyverse)
+download.file("https://raw.githubusercontent.com/datacarpentry/R-genomics/gh-pages/data/Ecoli_metadata.csv", 
+here("data_in", "Ecoli_citrate.csv"))
+here("data_in", "Ecoli_citrate")
+Ecoli_citrate <- read_csv(here("data_in", "Ecoli_citrate.csv"))
+```
+
+You can see that `read_csv` reports a "column specification". This shows the variable names that were read in and the type of data that each column was interpreted as. Among other things, `read_csv()` will store the data as a tibble and `read.csv()` (which is the built-in function in base R) will store the data as a data frame.
+
+
+```{r}
+Ecoli_citrate
+```
+
+<div class ="box">
+### Using the GUI interface: Exercise
+1. Go to the Files panel of RStudio.   
+2. Navigate to the directory i.e. folder on your computer where the downloaded `Ecoli_citrate.csv` file is saved.  
+3. Click on Ecoli_citrate.csv  
+4. Click “Import Dataset…”
+
+At this point you should see an image like this:
+
+<div style="margin-bottom:50px;">
+</div>
+```{r, echo=FALSE, out.width = '100%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "citrate_GUI.png"))
+```
+<div style="margin-bottom:50px;">
+</div>
+
+After clicking on the “Import” button on the bottom right RStudio, RStudio will save this spreadsheet’s data in a data frame called `Ecoli_citrate` and display its contents in the spreadsheet viewer. Furthermore, note in the bottom right of the above image there exists a “Code Preview”: you can copy and paste this code to reload your data again later automatically instead of repeating the above manual point-and-click process.
+</div>
+
+Note that both methods have imported the data as a tibble (if you copied the code from the Code Preview you'll note that it used `read_csv` just like we did). Just for fun we can compare this to the same file loaded using `read.csv()`:
+
+```{r}
+Ecoli_citrate2 <- read.csv(here("data_in", "Ecoli_citrate.csv"))
+head(Ecoli_citrate2)
+```
+
+Notice that I've used `head`, which gives me only the first 6 rows of the data sheet. What happens if you type `Ecoli_citrate2` into the console? Note that this is different than when we read in `Ecoli_citrate2` as a tibble. There will be some applications in the future where we will need to use data frames instead of tibbles. We can easily convert between them using `as.data.frame` or `as_tibble`:
+
+```{r}
+Ecoli_citrate2 <- as_tibble(Ecoli_citrate2)
+Ecoli_citrate2
+```
+
+```{r}
+Ecoli_citrate2 <- as.data.frame(Ecoli_citrate2)
+head(Ecoli_citrate2)
+```
+
+Since we don't need this data frame, let's remove the object from memory.
+
+```{r}
+rm(Ecoli_citrate2)
+```
+
+You can see what is currently being stored using `ls()`.
+
+# Exploring tibbles
+
+We can explore the contents of a tibble in several ways. We can view the first ten rows of a tibble as above, which tells us lots of information about the column types and the number of rows. We can also use
+```{r}
+View(Ecoli_citrate)
+glimpse(Ecoli_citrate)
+```
+
+We can return a vector containing the values of a variable (column) using the `$` sign:
+
+```{r}
+Ecoli_citrate$generation
+```
+
+We can also use the subsetting operator `[]` directly on tibbles. In contrast to a vector,a tibble is two dimensional. We pass two arguments to the `[]` operator; the first indicates the row(s) we require and the second indicates the columns. So to return the value in row 10, column 1:
+
+```{r}
+Ecoli_citrate[10, 1]
+```
+
+Similarly, to return the values in rows 25 to 30, and columns 1 to 3:
+
+```{r}
+Ecoli_citrate[25:30, 1:3]
+```
+
+If we leave an index blank, this acts as a wildcard and matches all of the rows or columns:
+
+```{r}
+Ecoli_citrate[22, ]
+Ecoli_citrate[, 1:3]
+```
+
+The function `slice()` accomplishes the same thing as the numeric indices: 
+
+```{r}
+#grab rows 1 through 3
+slice(Ecoli_citrate, 1:3)
+```
+
+
+You can also refer to columns by name with quotation marks.
+
+```{r}
+Ecoli_citrate[, "sample"]
+```
+
+Note that subsetting a tibble returns another tibble; in contrast, using `$` to extract a variable returns a vector:
+
+```{r}
+Ecoli_citrate$cit
+Ecoli_citrate[, "cit"]
+```
+
+
+We can use `arrange()` to re-order a data frame based on the values of a columns. It will take also multiple columns and can be in descending or ascending order. 
+
+```{r}
+#descending
+arrange(Ecoli_citrate, genome_size)
+
+#multiple columns: smallest genome size and largest generation
+arrange(Ecoli_citrate, genome_size, desc(generation))
+```
+
+
+# Writing data in R
+
+We can save a tibble (or data frame) to a csv file, using readr’s write_csv() function. For example, to save the `Ecoli_citrate` data to `Ecoli_citrate.csv`:
+
+```{r}
+Ecoli_citrate_sub <- Ecoli_citrate[25:30, 1:3]  #note that splice only works for rows, we'll see a way to select specific columns in the next lesson
+Ecoli_citrate_sub
+
+write_csv(Ecoli_citrate_sub, here("data_out", "Ecoli_citrate_sub"))
+```
+
+# Constructing a tibble
+
+[This section is from the tibbles vignette](https://cran.r-project.org/web/packages/tibble/vignettes/tibble.html)
+
+Basic tibble construction. There's more than one way to do the same thing.
+```{r}
+place1 <- tibble(x = 1:5, y = c("a", "b", "c", "d", "e"))
+place2 <- data_frame(x = 1:5, y = c("a", "b", "c", "d", "e"))
+```
+
+Tibbles are evaluated lazily and sequentially:
+```{r}
+tibble(x = 1:5, y = x ^ 2)
+```
+
+When constructing a tibble, only values of length 1 are recycled. The first column with length different to one determines the number of rows in the tibble, conflicts lead to an error. This also extends to tibbles with zero rows, which is sometimes important for programming:
+
+```{r}
+tibble(a = 1, b = 1:3)
+tibble(a = 1:3, b = 1)
+# tibble(a = 1:3, c = 1:2)
+tibble(a = 1, b = integer())
+```
+
+# Differences with base R
+
+Here you've learned to read files using the functionality in the `readr` package, which is part of the `tidyverse`.
+
+R’s standard data structure for tabular data is the `data.frame`. In contrast, `read_csv()` creates a `tibble` (also referred to, for historic reasons, as a `tbl_df`). This extends the functionality of a `data.frame`, and can, for the most part, be treated like a `data.frame`.
+
+You will find that some older functions don’t work on tibbles. A tibble can be converted to a dataframe using `as.data.frame(mytibble)`. To convert a data frame to a tibble, use `as.tibble(mydataframe)`.
+
+Tibbles behave more consistently than data frames when subsetting with `[]`; this will always return another tibble. This isn’t the case when working with data.frames. You can find out more about the differences between data.frames and tibbles by typing `vignette("tibble")`.
+
+`read_csv()` will always read variables containing text as character variables. In contrast, the base R function `read.csv()` will, by default, convert any character variable to a factor. This is often not what you want, and can be overridden by passing the option `stringsAsFactors = FALSE` to `read.csv()`.
+
+# Attribution
+Based largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). The material is compiled from workshop materials located [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). The section on `read_csv` vs. `read.csv` is from ["From Modern Dive Section 5.1"](https://moderndive.com/5-tidy.html#tidy)
+

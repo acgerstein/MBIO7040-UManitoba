@@ -1,0 +1,392 @@
+---
+title: "EDA-i"
+output:
+  html_document:
+    theme: cerulean
+---
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+Ecoli_citrate <- read_csv(here("data_in", "Ecoli_citrate.csv"))
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+---
+
+<div class="alert alert-info">
+<strong>Learning Objectives</strong>
+
+* Produce scatter plots, boxplots, and timeseries plot using ggplot.
+* Describe what faceting is and apply faceting in ggplot.
+* Modify the aesthetics of an existing ggplot plot (including axis labels and color).
+* Build complex and customized plots from data in a data frame.
+
+</div>
+---
+
+
+# Data types are important 
+
+The type of statistical analysis you will conduct depends critically on the type of data you have. In the time we have available it is not possible to go through every possible iteration of data and analysis. Thus our focus will be on common types of data that we see in microbiology. We also seek to link data visualization in tandem with statistics through *exploratory data analysis* or EDA, of our data. We will use EDA to get a sense of the disribution of our data, and see whether there are outliers or missing values. We will let the EDA inform us how to build our models.  
+
+### The Five Number Summary
+The five number summary gives a quick look at the features of numerical variables. It consists of the variables:
+
+* minimum
+* 1st quartile
+* median
+* 3rd quartile
+* maximum
+
+<div class = "boxSmall">
+**QUANTILES:** The *pth* percentile of a data set sorted from smallest to largest is the value such that *p* percent of the data are at or below this value.  The quartiles are special percentiles; the 1st quartile is the 25th percentile, and the 3rd quartile is the 75th percentile.  The median is also a quartile – it is the 50th percentile.
+</div>
+
+Within these five numbers is a lot of useful data!
+
+* the median gives a measure of the centre of the data
+* the minimum and maximum give the range of the data
+* the 1st and 3rd quartiles give a sense of the spread of the data, especially when compared to the minimum, maximum, and median
+
+For our first EDA we're going to load a new dataset that contains the MIC50 information for 488 *Candida albicans* strains. This data comes from a [paper](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC127270/) that compared two different methods of measuring fluconazole resistance, broth microdilution tests (*MIC*) and disk diffusion assays (*disk*). The MIC is determined as the drug concentration where growth is inhibited by ~ 50% relative to the level of growth in medium with no drug. The measured drug concentrations are (0, 0.125, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64, 128). The disk diffusion measures resistance in millimeters as the diameter of the zone of inhibition on an agar plate seeded with fungal cells that has a single disk placed in the center that contains a set amount of fluconazole. For the sake of this workshop I added a toy variable "type" that indicates whether the strain was isolated from the skin or the blood.
+
+Load the data:
+```{r}
+download.file("http://home.cc.umanitoba.ca/~gersteia/MBIO7040/Calb_resistance.csv", 
+              here("data_in", "Calb_resistance.csv"))
+
+Calb_R <- read_csv(here("data_in", "Calb_resistance.csv"))
+Calb_R
+```
+
+We'll going to use a new function `skim()` from the `skimr` package to look at the summary information for our variables of interest.
+```{r}
+#install.packages("skimr")
+library(skimr)
+
+#select the columns with our data of interest.
+Calb_R %>% 
+  select(MIC, disk) %>% 
+  skim()
+```
+
+`Skim()` gives us the five numbers, as well as the sample size (`n`), the mean, and the standdard deviation `sd`. We also get a quick snapshot of the histogram of values.
+
+In this case the two variables give us quite different results. For the *disk* parameter, the mean and median (*p50*) are very similar, while for the MIC results they are quite different. We say that the *mean* is not a **robust** statistic since it is not resistant to extreme observations. In contrast, the *median* is robust to extreme (or outlier) observations. This summary (as well as the histogram) tells us that there is a **skew** in the data for MIC the data is not symmetrical around the median. It also gives us information about differences between these two types of experiments that seek to capture the same data, and perhaps suggests that outliers in MIC experiments are more common than in disk diffusion experiments. 
+
+We're going to explore these concepts more through the second phase of EDA, plotting the data. To do that we'll  use `ggplot`, which was actually one of the first developed components of the `tidyverse` framework that we've been using is this workshop. `ggplot` was actually first developed as a PhD thesis chapter!
+
+#Plotting with `ggplot2`
+`ggplot2` is a plotting package that makes it simple to create complex plots from data in a data frame. It provides a more programmatic interface for specifying what variables to plot, how they are displayed, and general visual properties. Therefore, we only need minimal changes if the underlying data change or if we decide to change from a bar plot to a scatterplot. This helps in creating publication quality plots with minimal amounts of adjustments and tweaking.
+
+`ggplot2` functions like data in the ‘long’ format, i.e., a column for every dimension, and a row for every observation. Well-structured data will save you lots of time when making figures with `ggplot2`.
+
+`ggplot` graphics are built step by step by adding new elements. Adding layers in this fashion allows for extensive flexibility and customization of plots.
+
+To build a ggplot, we will use the following basic template that can be used for different types of plots:
+
+`ggplot(data = <DATA>, mapping = aes(<MAPPINGS>)) +  <GEOM_FUNCTION>()`
+
+Use the ggplot() function and bind the plot to a specific data frame using the data argument
+`ggplot(data = Calb_R)`
+
+Define a mapping (using the aesthetic (aes) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g. as x/y positions or characteristics such as size, shape, color, etc.
+`ggplot(data = Calb_R, mapping = aes(x = MIC, y = disk))`
+
+Need to add ‘geoms’ – graphical representations of the data in the plot (points, lines, bars). ggplot2 offers many different geoms; we will use some common ones today, including:  
+- `geom_histogram()` for (unsuprisingly) histgrams  
+- `geom_boxplot()` for, well, boxplots!  
+- `geom_bar()` for bar plots  
+- `geom_point()` for scatter plots, dot plots, etc.  
+- `geom_line()` for trend lines, time series, etc.  
+
+<div class = "boxGrey">
+## Principles of effective display
+SOURCE: (Whitlock & Schluter, The Analysis of Biological Data)[http://whitlockschluter.zoology.ubc.ca/]
+
+We will follow these metrics to create and evaluate figures:  
+1. Show the data  
+2. Make patterns in the data easy to see  
+3. Represent magnitudes honestly  
+4. Draw graphical elements clearly, minimizing clutter  
+</div>
+
+## Plotting the distribution of one varible
+
+Let's look at a couple very simple plots to see what our data looks like. 
+
+First we'll explore the spread of the different variables. We'll start with a histogram of the disk diffusion resistance:
+
+```{r}
+ggplot(data = Calb_R, mapping = aes(disk)) +
+  geom_histogram()
+```
+
+There are a few easy things we can do to change this plot. We can easily change the theme (I personally don't like the grey background) and the axis labels. We'll also change the number of bins, since we got pinged that we should consider that. In reality if you can think of something to change, it can be done. The nice thing is that once we develop the code to specify the format we like, we can just copy it as we go forward. 
+```{r}
+ggplot(data = Calb_R, mapping = aes(disk)) +
+  geom_histogram(bins = 25) +    # change the number of bins
+  theme_bw() +   # change the theme
+  labs(x = "disk diffusion zone of inhibition" , y = "Number of strains")
+```
+
+<div class = "box">
+
+### CHALLENGE
+
+By eye, does this variable look normally distributed? Why or why not?
+
+</div>
+
+We can statistically test for normality using the `shapiro.test()`:
+
+```{r}
+shapiro.test(Calb_R$disk)
+```
+
+Notice that we switched syntaxes above, to *base* R (i.e., we used `df$variable`). The majority, if not all of the common statistical tests require this syntax, because they were developed prior to the *tidyverse* set of commands. Although there are some workarounds, we're going to go back and forth a little bit from these two syntaxes now as required.
+
+We can also easily overlay information from a categorical variable in this data set. In this case we'll add the strain `type` information using the `fill` command within the aesthetics specification.
+
+```{r}
+ggplot(data = Calb_R, mapping = aes(disk, fill = type)) +
+  geom_histogram(bins = 25) +    # change the number of bins
+  theme_bw() +   # change the theme
+  labs(x = "disk diffusion zone of inhibition (mm)" , y = "Number of strains")
+```
+
+
+This is probably not the most informative way to plot the data since it's all sitting very close to 0.
+
+```{r}
+ggplot(data = Calb_R, mapping = aes(MIC)) +
+  geom_histogram(bins = 10) +
+  scale_x_continuous(trans="log2")
+```
+
+This is not really a valid way to look at this data though, since plotting it this way makes it look like the data is continuous, when in fact it is not.
+
+```{r}
+ggplot(data = Calb_R, mapping = aes(MIC)) +
+  geom_histogram(bins = 20) +
+  scale_x_continuous(trans="log2", breaks = c(0.12, 0.5, 2, 8, 32, 128))
+```
+
+Let's switch to `geom_bar()`:
+li
+```{r}
+ggplot(data = Calb_R, mapping = aes(MIC)) +
+  geom_bar() + 
+  scale_x_continuous(trans="log2")
+```
+
+That looks like the one! It accurately reflects the data we have. Let's make it look a bit nicer. We can change essentially every single aesthetic aspect of this plot: if you can think of it, we (or someone on the internet) can do it.
+
+For now we'll just do a couple of basic things. We'll strip away that background, add more labels the the x axis, and use more descriptive axis labels.
+
+We're also going to define our base plot, in the same way we previously defined other objects. This makes it easier to build up the plot and try out different things. First I'll define the plot we created above as `p`, then build up from there.
+
+```{r}
+p <- ggplot(data = Calb_R, mapping = aes(MIC)) +
+  geom_bar() + 
+  scale_x_continuous(trans="log2")
+
+p
+```
+
+```{r}
+p +
+  scale_x_continuous(trans="log2", breaks = unique(Calb_R$MIC))
+```
+
+```{r}
+p +
+  scale_x_continuous(trans="log2", breaks = unique(Calb_R$MIC)) +
+  theme_bw()
+```
+
+```{r}
+p +
+  scale_x_continuous(trans="log2", breaks = unique(Calb_R$MIC)) +
+  theme_bw() +
+  labs(x = expression(MIC[50]), y = "Number of strains")
+```
+
+
+```{r}
+p2 <- ggplot(data = Calb_R, mapping = aes(MIC, fill = type)) +
+  geom_bar() + 
+  scale_x_continuous(trans="log2", breaks = unique(Calb_R$MIC)) +
+  theme_bw() +
+  labs(x = expression(MIC[50]), y = "Number of strains")
+
+p2
+```
+
+Another way to present this same data is to use `facet_wrap` to break up the plot into two panels instead of using colour to differentiate between the type of sample that was measured.
+
+```{r}
+p2 <- ggplot(data = Calb_R, mapping = aes(MIC)) +
+  geom_bar() + 
+  scale_x_continuous(trans="log2") +
+  theme_bw() +
+  labs(x = expression(MIC[50]), y = "Number of strains") +
+  facet_wrap(~type)
+
+p2
+```
+
+<div class = "box">
+
+### CHALLENGE
+
+Using the help menu `?facet_wrap` to see the different options that are available, change the figure above to:
+1) Put the two panels on top instead of beside each other
+2) Put the labels ("blood" and "skin") to the right of the panels instead of on top
+
+</div>
+
+# Dataset
+
+The dataset we are going to play with is one that I collected as a graduate student. I evolved haploid and diploid replicate lines of *Saccharomyces cerevisiae* for 189 generations to five different enviornments: rich medium ("ypd"), high salt ("nacl"), low pH ("hcl"), high pH ("koh") and ethanol ("ethanol"). I conducted a series of experiments, including taking optical density measurments at 24 hours of ancestral and evolved replicate lines.
+
+```{r}
+download.file(url="http://home.cc.umanitoba.ca/~gersteia/MBIO7040/workshop_growthRate.csv",
+              destfile = here("data_in", "growthRate.csv"))
+
+GR <- read_csv(here("data_in", "growthRate.csv"))
+GR
+```
+
+
+### Tidy the data
+In preparation for plotting, we are going to prepare a cleaned up version of the data set that doesn’t include any missing data.
+
+
+```{r}
+GR_complete <- GR %>%
+  filter(!is.na(od))           # remove wells with missing od inf=ormation
+```
+
+
+<div class="box">
+
+###CHALLENGE
+
+How many observations were removed above?
+
+</div>
+
+We're also going to change the ploidy designations from 1 and 2 to "haploid" and "diploid".
+```{r}
+GR_complete <- GR %>% 
+  filter(!is.na(od)) %>% 
+  mutate(ploidy = recode(ploidy, "1" = "haploid", "2" = "diploid"))
+```
+
+Before we start graphing the data, let's calculate some summary statistics to see where the largest differences are.
+
+```{r}
+GR_summarise <- GR_complete %>% 
+  group_by(ploidy, time, environment) %>% 
+  summarise(mean = mean(od), median = median(od), sd = sd(od)) %>% 
+  arrange(environment, time, desc(ploidy))  %>% 
+  mutate(skew = mean - median)
+
+GR_summarise
+```
+
+To start playing with this data, we're going to separate out the data collected in ancestral and evolved data, and separate out the different environments.
+
+```{r}
+GR_anc <- GR_complete %>% 
+  filter(time == "anc")
+
+GR_evol <- GR_complete %>% 
+  filter(time == "evol")
+
+GR_ypd <- GR_complete %>% 
+  filter(environment == "ypd")
+
+GR_ypd_anc <- GR_complete %>%
+  filter(environment == "ypd", time == "anc") 
+GR_ypd_evol <- GR_complete %>%
+  filter(environment == "ypd", time == "evol") 
+
+GR_koh <- GR_complete %>% 
+  filter(environment == "koh")
+GR_koh_anc <- GR_complete %>%
+  filter(environment == "koh", time == "anc") 
+GR_koh_evol <- GR_complete %>%
+  filter(environment == "koh", time == "evol") 
+```
+
+Right now I'm going to ignore the line and replicate information; let's pretend that each data point is independent of each other. The first question we might want to ask if whether there is an ancestral difference in growth between haploids and diploids. Essentially we want to compare one continuous (numeric) variable `od` and one qualitative (or factor) variable `ploidy`. We'll start by looking at the data using a histogram, where we can use  the `fill` option to colour replicates the two different ploidy levels. Histograms are extremely helpful for looking at data, especially in the early states of exploratory analyses because they tell us a lot about how the data is distributed.
+
+```{r}
+ggplot(data = GR_koh_anc, mapping = aes(od,  fill = ploidy)) +
+  geom_histogram(binwidth = 0.03)
+```
+
+<div class = "greyBox">
+
+### Notes
+
+* Anything you put in the ggplot() function can be seen by any geom layers that you add (i.e., these are universal plot settings). This includes the x- and y-axis mapping you set up in aes().  
+* You can also specify mappings for a given geom independently of the mappings defined globally in the ggplot() function.  
+* The + sign used to add new layers must be placed at the end of the line containing the previous layer. If, instead, the + sign is added at the beginning of the line containing the new layer, ggplot2 will not add the new layer and will return an error message.  
+
+</div>
+
+The correct statistical test to compare the means of a numerical variable between two groups (or treatments) is a t.test. Like all statistical tests, we have to decide whether we can do a **parametric** or **non-parametric test**.
+
+<div class="greyBox">
+### **Parametric** vs. **Non-Parametric**:
+In the literal meaning of the terms, a parametric statistical test is one that makes assumptions about the parameters (defining properties) of the population distribution(s) from which one's data are drawn, while a non-parametric test is one that makes no such assumptions. In this strict sense, "non-parametric" is essentially a null category, since virtually all statistical tests assume one thing or another about the properties of the source population(s).
+
+For practical purposes, you can think of "parametric" as referring to tests, such as t-tests and the analysis of variance, that assume the underlying source population(s) to be normally distributed; they generally also assume that one's measures derive from an equal-interval scale. And you can think of "non-parametric" as referring to tests that do not make on these particular assumptions. 
+SOURCE: [Concepts and Applications of Inferential Statistics](http://vassarstats.net)
+</div>
+
+The null hypothesis is that the two means are equal, and the alternative is that they are not. It is known that under the null hypothesis, we can calculate a t-statistic that will follow a t-distribution with n1 + n2 - 2 degrees of freedom. There is also a widely used modification of the t-test, known as Welch's t-test that adjusts the number of degrees of freedom when the variances are thought not to be equal to each other. 
+
+```{r}
+t.test(od ~ ploidy, data = GR_ypd_evol, var.equal = TRUE)
+```
+
+
+#  Biological versus technical replicates
+
+#summary(aov(od ~ ploidy * time, data = GR_nacl))
+
+### Add summary statistics
+The nature of a boxplot is that there has already been a statistical transformation done "under the hood" to produce the figure.
+
+There are a lot of built-in options that we can specify to add to this plot. See `?geom_boxplot` for the full list. For now, let's add the mean.
+
+The summary statistics are added through the various `stat_` functions. It is probably the case that you will want to decide which `stat_` function is appropriate after deciding which `geom_` is appropriate, which is  based on the data and the message you are trying to convey. Here are some examples (from a perhaps underwhelmingly titled blog post: https://www.dummies.com/programming/r/how-to-plot-summarized-data-in-a-ggplot2-in-r/)
+```
+
+ggplot(GR_ethanol, )
+
+https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0146021
+
+https://docs.google.com/document/d/1nQ3lqq6FttLu-92DHDlx3qwFsV7pZI-Hed3AEqNlB40/edit
+
+https://www.nature.com/articles/d41586-019-00874-8
+
+
+
+# Attributes
+https://chemicalstatistician.wordpress.com/2013/08/12/exploratory-data-analysis-the-5-number-summary-two-different-methods-in-r-2/
+ Jenny Bryan (UBC Stat 545)
+ https://statistics.berkeley.edu/computing/r-t-tests
+ http://vassarstats.net/textbook/parametric.html

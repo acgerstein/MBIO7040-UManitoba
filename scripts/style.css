@@ -1,0 +1,59 @@
+body{ /* Normal  */
+      font-size: 16px;
+  }
+td {  /* Table  */
+  font-size: 14px;
+}
+h1.title {
+  font-size: 38px;
+  color: DarkRed;
+}
+h1 { /* Header 1 */
+  margin-top: 50px;
+  font-size: 32px;
+  color: DarkBlue;
+}
+h2 { /* Header 2 */
+    font-size: 28px;
+  color: DarkBlue;
+}
+h3 { /* Header 3 */
+  font-size: 24px;
+  color: Black;
+}
+h4 { /* Header 4 */
+  font-size: 20px;
+  color: Black;
+}
+h5 { /* Header 5 */
+  font-size: 16px;
+  color: Black;
+}
+
+code.r{ /* Code block */
+    font-size: 12px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+
+.boxGrey {
+  background-color: #DBDBDB;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 100px 0px;
+  padding: 25px 25px;
+  font-size: 120%;
+}
+
+.box {
+  border: 2px solid black;
+  margin: 100px 0px;
+  padding: 0px 25px;
+}
+
+.boxSmall {
+  border: 2px solid black;
+  margin: 20px 0px;
+  padding: 10px 25px;
+}

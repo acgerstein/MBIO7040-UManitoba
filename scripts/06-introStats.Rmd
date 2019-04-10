@@ -1,0 +1,213 @@
+---
+title: "Introduction to Statistics"
+output:
+  html_document:
+    theme: cerulean
+---
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+```
+
+---
+
+<div class="alert alert-info">
+<strong>Learning Objectives</strong>
+
+* Describe the difference between populations and samples
+* Distinguish between data that follows a normal distribution and data that deviates in modality, skew, or kurtosis
+* Define the difference between null and alterate hypothesis
+* Define type I and type II error
+* Describe the relationship between alpha, beta and power
+
+</div>
+---
+
+
+<!--https://codeburst.io/2-important-statistics-terms-you-need-to-know-in-data-science-skewness-and-kurtosis-388fef94eeaa-->
+```{r, echo=FALSE, out.width = '50%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "statsIsComing.jpeg"))
+```
+SOURCE: [Diva Jain](https://codeburst.io/2-important-statistics-terms-you-need-to-know-in-data-science-skewness-and-kurtosis-388fef94eeaa)
+
+
+Statistics is the science of collecting, organising, summarising, analyzing, and interpreting data. *Descriptive statistics* refers to summarising data with numbers or pictures while *inferential statistics* is about making conclusions or decisions based on data. Inferential statistics uses data from a sample to make inferences about a population. 
+
+For example, if we are interested in the number of bacteria in a test tube, it is not possible to count every single individual cell. Instead, we could take a subset of the population and count it with a hemocytometer. 
+
+<div class= "box">
+
+### CHALLENGE
+
+Thinka about the experiment of taking samples from the population to counting cells with a hemocytometer. What experimental details would help us to get a more accurate measurement from our samples of the true population size?
+
+</div>
+
+The goal of statistics is to use imperfect information (our data) in order to infer facts, make decisions, and make predictions about the world.
+
+A *statistic* is a number or value measured within some particular context.
+
+It is essential to understand the context:  
+* Which data were collected?  
+* How and why were the data collected?  
+* On which individuals or entities were the data collected?  
+* What questions do we hope to answer from the data?  
+
+
+<div class="boxGrey">
+### **Parametric** vs. **Non-Parametric** Tests and the Normal Distribution
+In the literal meaning of the terms, a parametric statistical test is one that makes assumptions about the parameters (defining properties) of the population distribution(s) from which one's data are drawn, while a non-parametric test is one that makes no such assumptions. In this strict sense, "non-parametric" is essentially a null category, since virtually all statistical tests assume one thing or another about the properties of the source population(s).
+
+For practical purposes, you can think of "parametric" as referring to tests that assume the underlying source population(s) to be normally distributed; they generally also assume that one's measures derive from an equal-interval scale. And you can think of "non-parametric" as referring to tests that do not make on these particular assumptions. 
+
+If data is perfectly normally distributed, the two sides of the curve are the exact mirror of each other and the three measures of central tendancy [mean (average, $\mu$), median (middle number) and mode (most commonly observed value)] are all exactly the same in the middle of the distribution. 
+
+<div style="margin-bottom:20px;">
+</div>
+```{r, echo=FALSE, out.width = '75%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "normalDistribution.png"))
+```
+[Source: wikipedia]
+<div style="margin-bottom:20px;">
+</div>
+
+Another important consideration is the variability (or amount of spread) in the data. You can see above that different normal distributions have different amount of spread, show above with $\sigma^2$ which is shorthand for variance (the square of the standard deviation). Variance is calculated by finding the difference between every data point and the mean, squaring them, and taking the average of those numbers. The squares weigh outliers more heavily than points that are close to the mean and prevents values above the mean from neutralizing those below. Standard deviation (the square-root of variance) is used more often, because it is in the same unit of measurement as the original data. If you remember the words *Z-Score* that tells us how many standard deviations a specific data point lies above or below the mean.
+
+There are three other aspects of the data to consider with regards to the normal distribution.
+
+1. Modality: Is there a single peak in the distribution or multiple peaks?
+2. Skewness: Is the distribution symmetrical?
+3. Kurtosis: How much of the data is in the middle of the distribution vs. the tails? It is a measure of how many outliers are in the data.
+
+<div style="margin-bottom:20px;">
+</div>
+```{r, echo=FALSE, out.width = '75%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "ModalitySkewKurtosis.png"))
+```
+<div style="margin-bottom:20px;">
+</div>
+
+For todays purposes you can think about non-parametric statistics as ranked versions of the corresponding parametric tests when the assumptions of normality of variance are not met. We will discuss this further as we proceed below.  
+SOURCE: [Concepts and Applications of Inferential Statistics](http://vassarstats.net), Towards Data Science [blog post](https://towardsdatascience.com/intro-to-descriptive-statistics-252e9c464ac9) and [blog post](https://towardsdatascience.com/data-types-in-statistics-347e152e8bee)
+</div>
+
+
+# Different types of data
+In general when we are analyzing data what we are tying to do is define the relationship between:
+
+* the outcome (or dependent) variable, *y* and  
+* an explanatory/predictor (or independent) variable, *x* (also sometimes called a covariate).
+
+<!-- https://towardsdatascience.com/data-types-in-statistics-347e152e8bee -->
+
+The specific type of statistics required depends on the type of data, i.e., whether you have numerical (quantitative) or categorical data. 
+
+Categorical data represent characteristics and can be thought of as ways to label the data. They can be broken down into two classes: *nominal* and *ordinal*. *Nominal* data has no quantitative value and have no inherent order (e.g., growth or no growth of a population in a given drug concentration). By contrast, *ordinal* data represents discrete and ordered units (e.g., level of growth of a mutant compared to wildtype such as +1, +2, etc.).
+
+There are also two categories of numerical data. It can be *discrete*, if the data can only take on certain values. This type of darta can be counted but not measured (e.g., the number of heads in 100 coin flips). By contrast, *continuous* data can be measured (e.g., CFU counts, growth rate). 
+
+# The basics of hypothesis testing
+SOURCE: [Modern Dive, Chapter 10](https://moderndive.com/10-hypothesis-testing.html)
+
+In a hypothesis test, we use data from a sample to help us decide between two competing hypotheses about a population. We make these hypotheses more concrete by specifying them in terms of at least one population parameter of interest. We refer to the competing claims about the population as the null hypothesis, denoted by $H_0$, and the alternative (or research) hypothesis, denoted by $H_a$. The roles of these two hypotheses are NOT interchangeable.
+
+The claim for which we seek significant evidence is assigned to the alternative hypothesis. The alternative is usually what the experimenter or researcher wants to establish or find evidence for. Usually, the null hypothesis is a claim that there really is “no effect” or “no difference.” In many cases, the null hypothesis represents the status quo or that nothing interesting is happening. We assess the strength of evidence by assuming the null hypothesis is true and determining how unlikely it would be to see sample results/statistics as extreme (or more extreme) as those in the original sample.
+
+Hypothesis testing brings about many weird and incorrect notions in the scientific community and society at large. One reason for this is that statistics has traditionally been thought of as this magic box of algorithms and procedures to get to results and this has been readily apparent if you do a Google search of “flowchart statistics hypothesis tests.” There are so many different complex ways to determine which test is appropriate.
+
+You’ll see that we don’t need to rely on these complicated series of assumptions and procedures to conduct a hypothesis test any longer. These methods were introduced in a time when computers weren’t powerful. Your cellphone (in 2016) has more power than the computers that sent NASA astronauts to the moon after all. We’ll see that ALL hypothesis tests can be broken down into the following framework given by Allen Downey [here](http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html:
+
+<div style="margin-bottom:20px;">
+</div>
+```{r, echo=FALSE, out.width = '75%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "hypothesisTestingFramework.png"))
+```
+<div style="margin-bottom:20px;">
+</div>
+
+# Criminal trial analogy
+
+We'll think of hypothesis testing in the same context as a criminal trial in which a choice between two contradictory claims must be made:
+
+1. The accuser of the crime must be judged either guilty or not guilty.
+2. The individual on trial is initially presumed not guilty.
+3. Only STRONG EVIDENCE to the contrary causes the not guilty claim to be rejected in favor of a guilty verdict.
+4. The phrase “beyond a reasonable doubt” is often used to set the cutoff value for when enough evidence has been given to convict.
+5. Theoretically, we should never say “The person is innocent.” but instead “There is not sufficient evidence to show that the person is guilty.”
+
+Now let’s compare that to how we look at a hypothesis test. 
+
+1. The decision about the population parameter(s) must be judged to follow one of two hypotheses.
+2. We initially assume that $H_0$ is true.
+3. The null hypothesis $H_0$ will be rejected (in favor of $H_a$) only if the sample evidence strongly suggests that  
+$H_0$ is false. If the sample does not provide such evidence, $H_0$ will not be rejected.
+4. The analogy to “beyond a reasonable doubt” in hypothesis testing is what is known as the significance level. This will be set before conducting the hypothesis test and is denoted as $\alpha$. Common values for $\alpha$ are 0.1, 0.01, and 0.05.
+
+### Two possible conclusions
+
+The two possible conclusions with hypothesis testing are:
+
+* Reject $H_0$
+* Fail to reject $H_0$
+
+Gut instinct says that “Fail to reject $H_0$” should say “Accept $H_0$” but this technically is not correct. Accepting  
+$H_0$ is the same as saying that a person is innocent. We cannot show that a person is innocent; we can only say that there was not enough substantial evidence to find the person guilty.
+
+When you run a hypothesis test, you are the jury of the trial. You decide whether there is enough evidence to convince yourself that $H_a$ is true (“the person is guilty”) or that there was not enough evidence to convince yourself $H_a$ is true (“the person is not guilty”). You must convince yourself (using statistical arguments) which hypothesis is the correct one given the sample information.
+
+# Types of errors in hypothesis testing
+
+The risk of error is the price researchers pay for basing an inference about a population on a sample. With any reasonable sample-based procedure, there is some chance that a Type I error will be made and some chance that a Type II error will occur.
+
+<div style="margin-bottom:20px;">
+</div>
+```{r, echo=FALSE, out.width = '75%', fig.pos = "H", fig.align="center"}
+knitr::include_graphics(here("Images", "typeItypeII.jpg"))
+```
+<div style="margin-bottom:20px;">
+</div>
+Image source: unbiasedresearch.blogspot.com
+
+If we are using sample data to make inferences about a parameter, we run the risk of making a mistake. Obviously, we want to minimize our chance of error; we want a small probability of drawing an incorrect conclusion.
+
+The probability of a Type I Error occurring is denoted by $\alpha$ and is called the significance level of a hypothesis test
+The probability of a Type II Error is denoted by $\beta$. $\alpha$ corresponds to the probability of rejecting $H_0$ when, in fact, $H_0$ is true. 
+
+$\beta$ corresponds to the probability of failing to reject $H_0$ when, in fact, $H_0$ is false. Ideally, we want  
+$\alpha$ = 0 and $\beta$ = 0, meaning that the chance of making an error does not exist. When we have to use incomplete information (sample data), it is not possible to have both $\alpha$ = 0 and $\beta$ = 0. We will always have the possibility of at least one error existing when we use sample data.
+
+Usually, what is done is that $\alpha$ is set before the hypothesis test is conducted and then the evidence is judged against that significance level. Common values for $\alpha$ are 0.05, 0.01, and 0.10. If $\alpha$ = 0.05, we are using a testing procedure that, used over and over with different samples, rejects a TRUE null hypothesis five percent of the time.
+
+So if we can set $\alpha$ to be whatever we want, why choose 0.05 instead of 0.01 or even better 0.0000000000000001? Well, a small $\alpha$ means the test procedure requires the evidence against $H_0$ to be very strong before we can reject  
+$H_0$. This means we will almost never reject $H_0$ if $\alpha$ is very small. If we almost never reject $H_0$, the probability of a Type II Error – failing to reject $H_0$ when we should – will increase! Thus, as $\alpha$ decreases, $\beta$ increases and $\alpha$ increases, $\beta$ decreases. We therefore need to strike a balance, and 0.05, 0.01 and 0.1 usually lead to a nice balance. 
+
+# Power
+
+The third part of this discussion is power. Power is the probability of not making a Type II error, which we can write mathematically as power is 1 – $\beta$. The power of a hypothesis test is between 0 and 1; if the power is close to 1, the hypothesis test is very good at detecting a false null hypothesis. $\beta$ is commonly set at 0.2, but may be set by the researchers to be smaller.
+
+Consequently, power may be as low as 0.8, but may be higher. There are the following four primary factors affecting power:
+* Significance level ($\alpha$)
+* Sample size
+* Variability, or variance, in the measured response variable
+* Magnitude of the effect of the variable
+
+Power is increased when the sample size increases, as well as when there is a stronger effect size and a higher level. Power decreases when variance ($\sigma$) increases.
+
+# Statistical Significance
+
+The idea that sample results are more extreme than we would reasonably expect to see by random chance if the null hypothesis were true is the fundamental idea behind statistical hypothesis tests. If data at least as extreme would be very unlikely if the null hypothesis were true, we say the data are statistically significant. Statistically significant data provide convincing evidence against the null hypothesis in favor of the alternative, and allow us to generalize our sample results to the claim about the population.
+
+However, from the discussion of the tradeoff between $\alpha$ and $\beta$ hopefully you can see that strictly relying on p-values can be troublesome. There are many papers written about this. 
+
+For the rest of this workshop we will link statistical analysis to data visualization, with the goal to show that both in tandem can tell us the stories that lie in our data.
+
+# Attributes
+[Modern Dive](https://moderndive.com)   
+[Diva Jain](https://codeburst.io/2-important-statistics-terms-you-need-to-know-in-data-science-skewness-and-kurtosis-388fef94eeaa)   
+[Introduction to Statistical Ideas and Methods online modules](https://stats.onlinelearning.utoronto.ca/) distributed under a [Creative Commons BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/)  
+[Statistics Teacher: What is power?](http://www.statisticsteacher.org/2017/09/15/what-is-power/)   
+[Concepts and Applications of Inferential Statistics](http://vassarstats.net), Towards Data Science [blog post](https://towardsdatascience.com/intro-to-descriptive-statistics-252e9c464ac9) and [blog post](https://towardsdatascience.com/data-types-in-statistics-347e152e8bee)

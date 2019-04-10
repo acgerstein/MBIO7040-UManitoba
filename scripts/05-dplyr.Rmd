@@ -1,0 +1,277 @@
+---
+title: "Manipulating Data with dplyr"
+output:
+  html_document:
+    theme: cerulean
+    df_print: default
+---
+
+<link rel="stylesheet" type="text/css" href="style.css">
+
+<!-- From https://stackoverflow.com/a/37839683/1297830 -->
+<link rel="stylesheet" type="text/css" href="hideOutput.css">
+<script src="hideOutput.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(here)
+library(tidyverse)
+Ecoli_citrate <- read_csv(here("data_in", "Ecoli_citrate.csv"))
+```
+
+---
+
+<div class="alert alert-info">
+<strong>Learning Objectives</strong>
+
+*  Describe what the dplyr package in R is used for.  
+*  Apply common dplyr functions to manipulate data in R.  
+*  Employ the ‘pipe’ operator to link together a sequence of functions.  
+*  Employ the ‘mutate’ function to apply other chosen functions to existing columns and create new columns of data.  
+*  Employ the ‘split-apply-combine’ concept to split the data into groups, apply analysis to each group, and combine the results.  
+*  Convert tibbles from long to wide and back again
+
+</div>
+
+---
+
+# What is dplyr?
+
+The package `dplyr` is a fairly new (2014) package that tries to provide easy tools for the most common data manipulation tasks. It is built to work directly with tibbles. The thinking behind it was largely inspired by the package `plyr` which has been in use for some time but suffered from being slow in some cases. `dplyr` addresses this by porting much of the computation to C++. An additional feature is the ability to work with data stored directly in an external database. The benefits of doing this are that the data can be managed natively in a relational database, queries can be conducted on that database, and only the results of the query returned.
+
+This addresses a common problem with R in that all operations are conducted in memory and thus the amount of data you can work with is limited by available memory. The database connections essentially remove that limitation in that you can have a database of many 100s GB, conduct queries on it directly and pull back just what you need for analysis in R.
+
+`dplyr` is loaded with the `tidyverse` metapackage.
+
+```{r}
+library(tidyverse)
+```
+
+# Selecting columns and filtering rows
+
+We’re going to learn some of the most common `dplyr` functions: `select()`, `filter()`, `mutate()`,  `group_by()`, and `summarise()`. To select columns of a data frame, use `select()`. The first argument to this function is the data frame (tibble), and the subsequent arguments are the columns to keep.
+
+```{r}
+select(Ecoli_citrate, sample, clade, cit, genome_size)
+```
+
+To choose rows, use filter():
+
+```{r}
+filter(Ecoli_citrate, cit == "plus")
+filter(Ecoli_citrate, cit != "plus")
+```
+
+# Pipes
+
+But what if you wanted to `select` and `filter`? There are three ways to do this: use intermediate steps, nested functions, or pipes. With the intermediate steps, you essentially create a temporary data frame and use that as input to the next function. This can clutter up your workspace with lots of objects. You can also nest functions (i.e. one function inside of another). This is handy, but can be difficult to read if too many functions are nested as the process from inside out. The last option, pipes, are a fairly recent addition to R. Pipes let you take the output of one function and send it directly to the next, which is useful when you need to many things to the same data set. Pipes in R look like `%>%` and are made available via the `magrittr` package installed as part of tidyverse. If you’re familiar with the Unix shell, you may already have used pipes to pass the output from one command to the next. The concept is the same, except the shell uses the `|` character rather than R’s pipe operator `%>%`.
+
+The pipe operator can be tedious to type. In Rstudio pressing `Ctrl + Shift + M` under Windows / Linux will insert the pipe operator. On the mac, use `⌘ + Shift + M`.
+
+```{r}
+Ecoli_citrate %>%
+  filter(cit == "plus") %>%
+  select(sample, generation, clade, cit)
+```
+
+In the above we use the pipe to send the data set first through `filter`, to keep rows where cit was equal to ‘plus’, and then through `select` to keep the sample and generation and clade columns. When the data frame is being passed to the `filter()` and `select()` functions through a pipe, we don’t need to include it as an argument to these functions anymore. Note that the order of operations here matters - try reversing the `filter()` and `select()` commands - why doesn't that work?
+
+This is the same as the nested version:
+```{r}
+select(filter(Ecoli_citrate, cit == "plus"), sample, generation, clade)
+```
+
+If we wanted to create a new object with this smaller version of the data we could do so by assigning it a new name:
+
+```{r}
+Ecoli_citplus <- Ecoli_citrate %>%
+  filter(cit == "plus") %>%
+  select(sample, generation, clade)
+
+Ecoli_citplus
+```
+
+We can think of the `filter()` and `select()` functions as verbs in the sentence; they do things to the data flowing through the pipeline.
+
+<div class="box">
+
+### CHALLENGE
+
+Using pipes, subset the data to include rows where the clade is ‘Cit+’ and keep only the columns `sample`, `cit`, and `genome_size`.
+How many rows are in that tibble? 
+HINT: You can use the `nrow()` function to find out how many rows are in a tibble.)
+
+</div>
+
+# Mutate
+
+Frequently you’ll want to create new columns based on the values in existing columns, for example to do unit conversions or find the ratio of values in two columns. For this we’ll use `mutate()`.
+
+To create a new column of genome size in bp:
+
+```{r}
+Ecoli_citrate %>%
+  mutate(genome_bp = genome_size *1e6)
+```
+
+The first row has a NA value for clade, so if we wanted to remove those we could insert a filter() in this chain:
+
+```{r}
+Ecoli_citrate %>%
+  mutate(genome_bp = genome_size *1e6) %>%
+  filter(!is.na(clade))
+```
+
+`is.na()` is a function that determines whether something is or is not an NA. The `!` symbol negates it, so we’re asking for everything that is not an `NA`.
+
+# Split-apply-combine data analysis and the summarize() function
+
+Many data analysis tasks can be approached using the “split-apply-combine” paradigm: split the data into groups, apply some analysis to each group, and then combine the results. `dplyr` makes this very easy through the use of the `group_by()` function, which splits the data into groups. When the data is grouped in this way `summarize()` can be used to collapse each group into a single-row summary. `summarize()` does this by applying an aggregating or summary function to each group. For example, if we wanted to group by citrate-using mutant status and find the number of rows of data for each status, we would do:
+
+```{r}
+Ecoli_citrate %>%
+  group_by(cit) %>%
+  summarize(n())
+```
+
+Here the summary function used was `n()` to find the count for each group. We can also apply many other functions to individual columns to get other summary statistics. For example, in the R base package we can use built-in functions like `mean`, `median`, `min`, and `max`. By default, all R functions operating on vectors that contains missing data will return `NA`. It’s a way to make sure that users know they have missing data, and make a conscious decision on how to deal with it. When dealing with simple statistics like the `mean`, the easiest way to ignore `NA` (the missing data) is to use `na.rm=TRUE` (rm stands for remove).
+
+So to view mean `genome_size` by mutant status:
+
+```{r}
+Ecoli_citrate %>%
+  group_by(cit) %>%
+  summarize(mean_size = mean(genome_size, na.rm = TRUE))
+```
+
+You can group by multiple columns too:
+
+```{r}
+Ecoli_citrate %>%
+  group_by(cit, clade) %>%
+  summarize(mean_size = mean(genome_size, na.rm = TRUE))
+```
+
+Looks like for one of these clones, the clade is missing. We could then discard those rows using filter():
+
+```{r}
+Ecoli_citrate %>%
+  group_by(cit, clade) %>%
+  summarize(mean_size = mean(genome_size, na.rm = TRUE)) %>% 
+  filter(!is.na(clade))
+```
+
+You can also summarize multiple variables at the same time:
+```{r}
+Ecoli_citrate %>%
+  group_by(cit, clade) %>%
+  summarize(mean_size = mean(genome_size, na.rm = TRUE),
+            min_generation = min(generation))
+```
+
+[Handy dplyr cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+
+<div class = "box">
+
+### CHALLENGE
+
+Create a tibble containing each unique clade (removing the samples with unknown clades) and the rank of it's mean genome size. (note that ranking genome size will not sort the table; the row order will be unchanged. You can use the `arrange()` function to sort the table).
+
+There are several functions for ranking observations, which handle tied values differently. For this exercise it doesn’t matter which function you choose. Use the help options to find a ranking function.
+
+</div>
+
+<div class="fold s">
+```{r}
+Ecoli_citrate %>% 
+  group_by(clade) %>% 
+  summarise(means = mean(genome_size)) %>% 
+  mutate(rank(means))
+```
+</div>
+
+## Long to Wide or Wide to Long
+
+### Long to wide
+Data is often recorded in a long format for efficiency. We're going to use a toy dataset to illustrate. For every plate a researcher counted, they wrote down the number of colonies they saw, and the dilution from the original culture As this was just a running tally, the data ended up in a long format:
+
+```{r}
+counts <- tibble(replicate = c(1, 1, 2, 2, 3), 
+                      num_colonies = c('40', '70', 
+                                '25', '60', 
+                                '15'),
+                      dilution = c("d10", "d5", "d10", "d5", "d5")
+            )
+counts
+
+```
+
+But, what if we wanted to easily compare number of colonies across drug concentrations? We can use `spread` to change the data into a wide format. 
+
+`Spread` requires you tell it the name of the column which contains values that will be the column names in your new data set - a so called “key” column. You also tell it which column contains the relevant numbers - the “values” column.
+
+```{r}
+counts_wide <- counts %>%
+  spread(dilution, num_colonies)
+
+counts_wide
+```
+
+You'll notice there is an NA values for one of the plates. This is incredibly common in ecological and biological data. Sometimes, they are NA - they weren't recorded (or, for example, a contaminated plate). Other times, such as in this data set, they actually mean 0 observations. To add this information we use the `fill` argument in `spread`.
+
+```{r}
+counts_wide <- counts %>%
+  spread(dilution, num_colonies, fill=0)
+
+counts_wide
+```
+
+Note that we could also fill those in right into the long data format using the `complete` function. In that function, we specify which columns we want all combinations of, and then supply a list of how new values should be filled in for other columns. If we don’t give a column name in that list, it defaults to NA. 
+
+```{r}
+counts_long_0 <- counts %>%
+  complete(dilution, replicate, fill=list(num_colonies=0))
+
+counts_long_0
+```
+
+### Wide to long
+
+In other cases the reverse is true - as some people recode their data in a wide format. To go from wide to long we use the `gather` function, which "gathers up your wide data".
+
+In this case you specify what you want the name of the new key column to be, what you want the name of the new values column to be, and then you can either specify which columns are to be gathered up (which can be tedious if there are a lot or they are spread) or you can specify which columns you want to exclude. I actually do things by exclusion quite often.
+
+```{r}
+count_long <- counts_wide %>%
+  gather(key = "dilution", value = "num_col", d10, d5)
+
+count_long
+```
+
+```{r}
+count_long <- counts_wide %>%
+  gather(key = "dilution", value = "num_col", -replicate)
+
+count_long
+```
+
+# Other great resources
+* [Data Wrangling tutorial](https://suzan.rbind.io/categories/tutorial/) - an excellent four part tutorial covering selecting data, filtering data, summarising and transforming your data.
+* [R for Data Science](http://r4ds.had.co.nz/)
+* [Data wrangling with R and RStudio](https://www.rstudio.com/resources/webinars/data-wrangling-with-r-and-rstudio/) - 55 minute webinar from RStudio
+*  RStudio’s “Data Transformation with dplyr” cheatsheet. This cheatsheet summarizes much more than what we’ve discussed in this chapter, in particular more-intermediate level and advanced data wrangling functions, while providing quick and easy to read visual descriptions.
+    * You can access this cheatsheet by going to the RStudio Menu Bar -> Help -> Cheatsheets -> “Data Transformation with dplyr”
+    
+# Key Points
+* Use the `dplyr` package (within the `tidyverse`) to manipulate tibbles.
+
+* Use `select()` to choose variables from a tibbles.
+
+* Use `filter()` to choose data based on values.
+
+* Use `group_by()` and `summarize()` to work with subsets of data.
+
+* Use `mutate()` to create new variables.
+
+# Attribution
+Based largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html). The material is compiled from workshop materials located  [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). Much of that was copied or adapted from [Jeff Hollister’s materials](http://usepa.github.io/introR/2015/01/14/03-Clean/).

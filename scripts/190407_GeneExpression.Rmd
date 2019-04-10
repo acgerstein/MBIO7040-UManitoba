@@ -1,0 +1,297 @@
+---
+title: "Gene Expression"
+author: "Aleeza Gerstein"
+date: '2019-03-28'
+output:
+  pdf_document: 
+    latex_engine: xelatex
+header-includes:
+- \usepackage[fontsize=12pt]{scrextend}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Genetics Backgrounder
+
+### The structure of DNA
+"The most beautiful experiment in biology: Meselson-Stahl* 
+
+https://www.youtube.com/watch?v=8jPK3S9S8rg
+
+### The central dogma DNA->RNA->Protein
+
+https://www.youtube.com/watch?v=bKIpDtJdK8Q
+
+42-11
+
+Original manuscript: Brauer et al 2008: Coordination of Growth Rate, Cell Cycle, Stress Response, and Metabolic Activity in Yeast https://www.molbiolcell.org/doi/full/10.1091/mbc.e07-08-0779
+
+Brauer 2008 used microarrays to test the effect of starvation and growth rate on baker’s yeast (*S. cerevisiae*). They set up a growth apparatus called a chemostrat that allowed them to precisely control the growth environment and the growth rate (via changing the nutrient dilution rate). 
+
+<insert picure of chemostat>
+
+Bauer *et al.* starved the yeast of these nutrients to find genes that changed their activity in different conditions. The goal was to identify growth-rate dependent expression patterns to learn something about cell cycle control and dthe stress response.
+
+Specifically, they looked at six limiting nutrients under six different nutrient dilution rates (= 36 conditions). 
+
+## Load the data
+
+```{r}
+library(readr)
+original_data <- read_delim("http://varianceexplained.org/files/Brauer2008_DataSet1.tds", delim = "\t", col_type = cols())
+original_data
+dim(original_data)
+```
+
+Each of those columns like G0.05, N0.3 and so on represents gene expression values for that sample, as measured by the microarray. The column titles show the condition: G0.05, for instance, means the limiting nutrient was glucose and the growth rate was .05. A higher value means the gene was more expressed in that sample, lower means the gene was less expressed. 
+
+---
+
+**CHALLENGE**
+
+What is untidy about this data?  
+
+What do we need to do to make it tidy?
+
+---
+
+\pagebreak
+
+**Reminder that the goal for tidy data is:**   
+Each variable forms a column.  
+Each observation forms a row.  
+Each type of observational unit forms a table.  
+
+## Clean the data
+
+### Start with the name column
+```{r}
+original_data$NAME[1:10]
+```
+
+Use `separate()` to split `NAME` into five different columns:
+
+```{r}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|")
+```
+
+Notice that because of the separation, we have leading and training whitespace in some columns.
+
+```{r}
+head(cleaned_data$BP)
+```
+
+Use `mutate_at()`, along with the built-in `trimws` (“trim whitespace”) function.
+
+```{r}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
+  mutate_at(c("name", "BP", "MF", "systematic_name"), trimws)
+```
+
+### Let's remove the columns we're not going to use.
+
+```{r}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
+  mutate_at(c("name", "BP", "MF", "systematic_name"), trimws) %>% 
+  select(-number, -GID, -YORF, -GWEIGHT)
+```
+
+### Data is trapped in the column names
+
+The column headers tell us the growth condition [glucose (G), ammonium (N), sulfate (S), phosphate (P), uracil (U) or leucine (L)] and the nutrient dilution rate [0.05:0.3].  
+The values within each column tell us the expression level for each gene (stored in rows).  
+This is a job for `gather()` (also known as melting, or turning a wide dataset long)
+
+```{r}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
+  mutate_at(c("name", "BP", "MF", "systematic_name"), trimws) %>% 
+  select(-number, -GID, -YORF, -GWEIGHT) %>%
+  gather(sample, expression, G0.05:U0.3)
+
+cleaned_data
+```
+
+One last thing, the sample column has both environment and dilution rate information in it. 
+
+```{r}
+cleaned_data <- original_data %>%
+  separate(NAME, c("name", "BP", "MF", "systematic_name", "number"), sep = "\\|\\|") %>%
+  mutate_at(c("name", "BP", "MF", "systematic_name"), trimws) %>% 
+  select(-number, -GID, -YORF, -GWEIGHT) %>%
+  gather(sample, expression, G0.05:U0.3) %>%
+  separate(sample, c("nutrient", "rate"), sep = 1, convert = TRUE)
+```
+
+## Interact with the data to figure out what story we want to tell
+
+(go to http://varianceexplained.org/r/tidy-genomics/ to see the story of the *LEU* genes. No sense in repeating this here, but go have a look!)
+
+From the original manuscript: clustering of all expression values across all dilution rates and limiting nutrients (next class!).
+
+```{r, fig.width=400, fig.height=400, fig.cap= "Hierarchical clustering of expression values across dilution rates and limiting nutrients. Clustering by Pearson correlation reveals many up- and down-regulated clusters spanning all nutrient limitations (e.g., Induced1, Induced2, Repressed) and few smaller gene groups regulated in a nutrient-specific manner (e.g., G1–G4, P, S, and N). Reference for all samples is from a glucose-limited chemostat at 0.25 h−1."}
+knitr::include_graphics("Brauer_fig2.png")
+```
+
+Let's look at the distribution of variation in expression across genes among different samples.
+
+```{r}
+gene_range <- cleaned_data %>% 
+  select(name, systematic_name, expression) %>% 
+  group_by(systematic_name, name) %>% 
+  summarise(expression_range = range(expression)[2] - range(expression)[1])
+gene_range
+```
+
+There shouldn't be any NA's here. Go back and think about why that might be.
+
+```{r}
+gene_range <- cleaned_data %>% 
+  select(name, systematic_name, expression) %>% 
+  group_by(systematic_name) %>% 
+  summarise(expression_range = range(expression, na.rm = TRUE)[2] - range(expression, na.rm = TRUE)[1])
+
+gene_range
+```
+
+```{r}
+ggplot(gene_range, aes(expression_range)) +
+  geom_histogram()
+```
+
+Let's select the top 10 genes to look at. I didn't know how to do that with tidyverse syntax, so I googled and found this page: https://rdrr.io/cran/dplyr/man/top_n.html
+
+```{r}
+gene_range_high <- cleaned_data %>% 
+  select(name, systematic_name, expression) %>% 
+  group_by(systematic_name) %>% 
+  summarise(expression_range = range(expression)[2] - range(expression)[1]) %>% 
+  top_n(10, expression_range)
+
+gene_range_high
+```
+
+```{r}
+gene_range_high_full <- nest_join(gene_range_high, cleaned_data)
+
+names(gene_range_high_full)
+
+gene_range_high_full[[1]]
+
+gene_range_high_full[[2]]
+
+gene_range_high_full[[3]]
+
+gene_range_high_full[[3]][[1]]
+```
+
+To properly manipulate this tibble of tibbles we need the `purr` package. This is a lesson for another day (class). So for now we're going to brute force it (which in all honesty, is sometimes a great method ... sometimes good enough is good enough!).
+
+```{r}
+gene_range_high_full[[1]]
+#"YBR294W" "YDR046C" "YDR256C" "YER065C" "YJR095W" "YKL217W" "YLR174W" "YLR377C" "YMR303C" "YNL117W"
+
+YBR294W <- gene_range_high_full[[3]][[1]]
+YDR046C <- gene_range_high_full[[3]][[2]]
+YDR256C <- gene_range_high_full[[3]][[3]]
+YER065C <- gene_range_high_full[[3]][[4]]
+YJR095W <- gene_range_high_full[[3]][[5]]
+YKL217W <- gene_range_high_full[[3]][[6]]
+YLR174W <- gene_range_high_full[[3]][[7]]
+YLR377C <- gene_range_high_full[[3]][[8]]
+YMR303C <- gene_range_high_full[[3]][[9]]
+YNL117W <- gene_range_high_full[[3]][[10]]
+
+top_genes <- rbind(YBR294W, YDR046C, YDR256C, YER065C, YJR095W, YKL217W, YLR174W, YLR377C, YMR303C, YNL117W)
+
+top_genes
+
+```
+
+Sanity check = 10 genes * 36 samples = 360 rows! 
+
+```{r}
+unique(top_genes$name)
+```
+
+```{r, echo=FALSE, eval =FALSE}
+cleaned_data  %>% 
+   filter(name %in% top_genes$name) %>% 
+   distinct(BP)
+```
+
+```{r}
+top_genes %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(-8, 8), breaks = seq(-8, 8, by=4)) +
+  facet_wrap(~name) +
+  theme_bw()
+```
+
+Neat, right? But we don't actually know what the baseline should be. So let's repeat that whole workflow for the least variable genes as a comparison.
+
+```{r}
+gene_range_low <- cleaned_data %>% 
+  select(name, systematic_name, expression) %>% 
+  group_by(systematic_name) %>% 
+  summarise(expression_range = range(expression)[2] - range(expression)[1]) %>% 
+  top_n(-10, expression_range)
+
+gene_range_low
+```
+
+```{r}
+gene_range_low_full <- nest_join(gene_range_low, cleaned_data)
+
+gene_range_low_full[[1]]
+#"YDR416W" "YHR155W" "YJR006W" "YKL075C" "YLR440C" "YMR247C" "YOL072W" "YOL111C" "YOR127W" "YPL235W"
+"YPR029C"
+YDR416W <- gene_range_low_full[[3]][[1]]
+YHR155W <- gene_range_low_full[[3]][[2]]
+YJR006W <- gene_range_low_full[[3]][[3]]
+YKL075C <- gene_range_low_full[[3]][[4]]
+YLR440C <- gene_range_low_full[[3]][[5]]
+YMR247C <- gene_range_low_full[[3]][[6]]
+YOL072W <- gene_range_low_full[[3]][[7]]
+YOL111C <- gene_range_low_full[[3]][[8]]
+YOR127W <- gene_range_low_full[[3]][[9]]
+YPL235W <- gene_range_low_full[[3]][[10]]
+YPR029C <- gene_range_low_full[[3]][[11]]
+
+low_genes <- rbind(YDR416W, YHR155W, YJR006W, YKL075C, YLR440C, YMR247C, YOL072W, YOL111C, YOR127W, YPL235W,
+YPR029C)
+
+low_genes
+```
+
+```{r}
+low_genes %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  facet_wrap(~name)
+```
+
+\pagebreak
+
+The importance of scaling ...
+
+```{r}
+low_genes %>%
+  ggplot(aes(rate, expression, color = nutrient)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(-8, 8), breaks = seq(-8, 8, by=4)) +
+  facet_wrap(~name)
+```
