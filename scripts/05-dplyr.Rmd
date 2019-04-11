@@ -95,11 +95,11 @@ We can think of the `filter()` and `select()` functions as verbs in the sentence
 
 <div class="box">
 
-### CHALLENGE
+### EXERCISE
 
-Using pipes, subset the data to include rows where the clade is ‘Cit+’ and keep only the columns `sample`, `cit`, and `genome_size`.
-How many rows are in that tibble? 
-HINT: You can use the `nrow()` function to find out how many rows are in a tibble.)
+Using pipes, subset `Ecoli_citrate` to include rows where the clade is ‘Cit+’ and keep only the columns `sample`, `cit`, and `genome_size`.  
+How many rows are in that tibble?  
+HINT: You can use the `nrow()` function to find out how many rows are in a tibble.  
 
 </div>
 
@@ -173,7 +173,8 @@ Ecoli_citrate %>%
 
 <div class = "box">
 
-### CHALLENGE
+###unknown vs. na is really confusing people here.
+### EXERCISE
 
 Create a tibble containing each unique clade (removing the samples with unknown clades) and the rank of it's mean genome size. (note that ranking genome size will not sort the table; the row order will be unchanged. You can use the `arrange()` function to sort the table).
 

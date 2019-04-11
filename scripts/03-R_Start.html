@@ -188,7 +188,7 @@ $(document).ready(function () {
 </div>
 
 
-<p><link href="data:text/css;charset=utf-8,body%7B%20%0Afont%2Dsize%3A%2016px%3B%0A%7D%0Atd%20%7B%20%0Afont%2Dsize%3A%2014px%3B%0A%7D%0Ah1%2Etitle%20%7B%0Afont%2Dsize%3A%2038px%3B%0Acolor%3A%20DarkRed%3B%0A%7D%0Ah1%20%7B%20%0Amargin%2Dtop%3A%2050px%3B%0Afont%2Dsize%3A%2032px%3B%0Acolor%3A%20DarkBlue%3B%0A%7D%0Ah2%20%7B%20%0Afont%2Dsize%3A%2028px%3B%0Acolor%3A%20DarkBlue%3B%0A%7D%0Ah3%20%7B%20%0Afont%2Dsize%3A%2024px%3B%0Acolor%3A%20Black%3B%0A%7D%0Ah4%20%7B%20%0Afont%2Dsize%3A%2020px%3B%0Acolor%3A%20Black%3B%0A%7D%0Ah5%20%7B%20%0Afont%2Dsize%3A%2016px%3B%0Acolor%3A%20Black%3B%0A%7D%0Acode%2Er%7B%20%0Afont%2Dsize%3A%2012px%3B%0A%7D%0Apre%20%7B%20%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%2EboxGrey%20%7B%0Abackground%2Dcolor%3A%20%23DBDBDB%3B%0Aborder%3A%202px%20solid%20black%3B%0Aborder%2Dradius%3A%205px%3B%0Amargin%3A%20100px%200px%3B%0Apadding%3A%2025px%2025px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0A%2Ebox%20%7B%0Aborder%3A%202px%20solid%20black%3B%0Amargin%3A%20100px%200px%3B%0Apadding%3A%200px%2025px%3B%0A%7D%0A" rel="stylesheet" type="text/css"></p>
+<p><link href="data:text/css;charset=utf-8,body%7B%20%0Afont%2Dsize%3A%2016px%3B%0A%7D%0Atd%20%7B%20%0Afont%2Dsize%3A%2014px%3B%0A%7D%0Ah1%2Etitle%20%7B%0Afont%2Dsize%3A%2038px%3B%0Acolor%3A%20DarkRed%3B%0A%7D%0Ah1%20%7B%20%0Amargin%2Dtop%3A%2050px%3B%0Afont%2Dsize%3A%2032px%3B%0Acolor%3A%20DarkBlue%3B%0A%7D%0Ah2%20%7B%20%0Afont%2Dsize%3A%2028px%3B%0Acolor%3A%20DarkBlue%3B%0A%7D%0Ah3%20%7B%20%0Afont%2Dsize%3A%2024px%3B%0Acolor%3A%20Black%3B%0A%7D%0Ah4%20%7B%20%0Afont%2Dsize%3A%2020px%3B%0Acolor%3A%20Black%3B%0A%7D%0Ah5%20%7B%20%0Afont%2Dsize%3A%2016px%3B%0Acolor%3A%20Black%3B%0A%7D%0Acode%2Er%7B%20%0Afont%2Dsize%3A%2012px%3B%0A%7D%0Apre%20%7B%20%0Afont%2Dsize%3A%2014px%3B%0A%7D%0A%2EboxGrey%20%7B%0Abackground%2Dcolor%3A%20%23DBDBDB%3B%0Aborder%3A%202px%20solid%20black%3B%0Aborder%2Dradius%3A%205px%3B%0Amargin%3A%20100px%200px%3B%0Apadding%3A%2025px%2025px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0A%2Ebox%20%7B%0Aborder%3A%202px%20solid%20black%3B%0Amargin%3A%20100px%200px%3B%0Apadding%3A%200px%2025px%3B%0A%7D%0A%2EboxSmall%20%7B%0Aborder%3A%202px%20solid%20black%3B%0Amargin%3A%2020px%200px%3B%0Apadding%3A%2010px%2025px%3B%0A%7D%0A" rel="stylesheet" type="text/css"></p>
 <hr />
 <div class="alert alert-info">
 <p><strong>Learning Objectives</strong></p>
@@ -248,18 +248,18 @@ $(document).ready(function () {
 <p>and then change weight_kg to 100.</p>
 <pre class="r"><code>weight_kg &lt;- 100</code></pre>
 <p>What do you think is the current content of the object <code>weight_lb</code>? 126.5 or 220?</p>
-</div>
-<div id="comments" class="section level1">
-<h1>Comments</h1>
+<div id="comments" class="section level3">
+<h3>Comments</h3>
 <p>The comment character in <code>R</code> is <code>#</code>, anything to the right of a <code>#</code> in a script will be ignored by R. It is useful to leave notes, and explanations in your scripts. RStudio makes it easy to comment or uncomment a paragraph: after selecting the lines you want to comment, press at the same time on your keyboard <code>Ctrl + Shift + C</code>. If you only want to comment out one line, you can put the cursor at any location of that line (i.e. no need to select the whole line), then press <code>Ctrl + Shift + C</code>.</p>
 <div class="box">
-<h3 id="challenge">Challenge</h3>
+<h3 id="exercise">EXERCISE</h3>
 <p>What are the values stored in each object in the following (do this in your head)?</p>
 <pre class="r"><code>mass &lt;- 50              # mass?
 age  &lt;- 122             # age?
 mass &lt;- mass * 2.0      # mass?
 age  &lt;- age - 22        # age?
 mass_index &lt;- mass/age  # mass_index?</code></pre>
+</div>
 </div>
 </div>
 <div id="functions-and-their-arguments" class="section level1">
@@ -339,7 +339,7 @@ weight_g</code></pre>
 <p>You can check the type of your vector using the <code>typeof()</code> function and inputting your vector as the argument.</p>
 <p>Vectors are one of the many data structures that R uses. Other important ones are lists (<code>list</code>), matrices (<code>matrix</code>), data frames (<code>data.frame</code>), factors (<code>factor</code>) and arrays (<code>array</code>). The set of packages we are going to use a lot in this workshop, the <code>tidyverse</code> uses tibbles(<code>tibble</code>) which as sort of liked souped up data frames. Data frames are analogous to rectangular spreadsheets: they are representations of datasets in R where the rows correspond observations and the columns correspond to variables that describe the observations.</p>
 <div class="box">
-<h3 id="challlenge">CHALLLENGE</h3>
+<h3 id="exercise-1">EXERCISE</h3>
 <ul>
 <li><p>We’ve seen that atomic vectors can be of type character, numeric (or double), integer, and logical. But what happens if we try to mix these types in a single vector?</p></li>
 <li><p>What will happen in each of these examples? (hint: use <code>class()</code> to check the data type of your objects):</p></li>
@@ -399,7 +399,7 @@ animals[animals == &quot;cat&quot; | animals == &quot;rat&quot;] # returns both 
 <pre class="r"><code>animals[animals %in% c(&quot;rat&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;duck&quot;, &quot;goat&quot;)]</code></pre>
 <pre><code>## [1] &quot;rat&quot; &quot;dog&quot; &quot;cat&quot;</code></pre>
 <div class="box">
-<h3 id="challenge-1">CHALLENGE</h3>
+<h3 id="exercise-2">EXERCISE</h3>
 <ul>
 <li>Can you figure out why “four” &gt; “five” returns TRUE?</li>
 </ul>
@@ -434,7 +434,7 @@ heights[complete.cases(heights)]</code></pre>
 <pre><code>## [1] 2 4 4 6</code></pre>
 <p>Recall that you can use the <code>typeof()</code> function to find the type of your atomic vector.</p>
 <div class="box">
-<h3 id="challenge-2">Challenge</h3>
+<h3 id="exercise-3">EXERCISE</h3>
 <ol style="list-style-type: decimal">
 <li>Using this vector of heights in inches, create a new vector, <code>heights_no_na</code>, with the NAs removed.</li>
 </ol>
@@ -459,6 +459,7 @@ heights[complete.cases(heights)]</code></pre>
 <li><em>“Load” the package</em>: “Loading” a package is like opening an app on your phone. Packages are not “loaded” by default when you start RStudio on your computer; you need to “load” each package you want to use every time you start RStudio.</li>
 </ol>
 <p>Let’s now show you how to perform these two steps for the <code>tidyverse</code> metapackage (package of packages).</p>
+<div class="boxGrey">
 <p>There are two ways to install an R package. For example, to install the <code>tidyverse</code> package:</p>
 <ol style="list-style-type: decimal">
 <li><strong>Easy way</strong>: In the Files pane of RStudio:
@@ -468,12 +469,14 @@ heights[complete.cases(heights)]</code></pre>
 <li>Type the name of the package under “Packages (separate multiple with space or comma):” In this case, type <code>tidyverese</code></li>
 <li>Click “Install”</li>
 </ol></li>
-<li><strong>Slightly harder way</strong>: An alternative but slightly less convenient way to install a package is by typing <code>install.packages(&quot;tidyverse&quot;)</code> in the Console pane of RStudio and hitting enter. Note you must include the quotation marks.<br />
-Much like an app on your phone, you only have to install a package once. However, if you want to update an already installed package to a newer version, you need to re-install it by repeating the above steps.</li>
+<li><strong>Slightly harder way</strong>: An alternative way to install a package is by typing <code>install.packages(&quot;tidyverse&quot;)</code> in the Console pane of RStudio and hitting enter. Note you must include the quotation marks.</li>
 </ol>
-<div class="box">
-<h3 id="exercise">EXERCISE</h3>
-<p>Practice what you have just done and install the R package <code>here</code></p>
+<p>Much like an app on your phone, you only have to install a package once. However, if you want to update an already installed package to a newer version, you need to re-install it by repeating the above steps.</p>
+</div>
+<div id="exercise-4" class="section level3">
+<h3>EXERCISE</h3>
+<p>Practice what you have just done and install the R package <code>here</code>.</p>
+</div>
 </div>
 <div id="package-loading" class="section level3">
 <h3>Package loading</h3>

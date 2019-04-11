@@ -319,8 +319,10 @@ Ecoli_citplus</code></pre>
 ## 9 REL10979      40000 Cit+</code></pre>
 <p>We can think of the <code>filter()</code> and <code>select()</code> functions as verbs in the sentence; they do things to the data flowing through the pipeline.</p>
 <div class="box">
-<h3 id="challenge">CHALLENGE</h3>
-<p>Using pipes, subset the data to include rows where the clade is ‘Cit+’ and keep only the columns <code>sample</code>, <code>cit</code>, and <code>genome_size</code>. How many rows are in that tibble? HINT: You can use the <code>nrow()</code> function to find out how many rows are in a tibble.)</p>
+<h3 id="exercise">EXERCISE</h3>
+<p>Using pipes, subset <code>Ecoli_citrate</code> to include rows where the clade is ‘Cit+’ and keep only the columns <code>sample</code>, <code>cit</code>, and <code>genome_size</code>.<br />
+How many rows are in that tibble?<br />
+HINT: You can use the <code>nrow()</code> function to find out how many rows are in a tibble.</p>
 </div>
 </div>
 <div id="mutate" class="section level1">
@@ -452,7 +454,7 @@ Ecoli_citplus</code></pre>
 ## 13 unknown unknown      4.62           2000</code></pre>
 <p><a href="http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf">Handy dplyr cheatsheet</a></p>
 <div class="box">
-<h3 id="challenge-1">CHALLENGE</h3>
+<h3 id="exercise-1">EXERCISE</h3>
 <p>Create a tibble containing each unique clade (removing the samples with unknown clades) and the rank of it’s mean genome size. (note that ranking genome size will not sort the table; the row order will be unchanged. You can use the <code>arrange()</code> function to sort the table).</p>
 <p>There are several functions for ranking observations, which handle tied values differently. For this exercise it doesn’t matter which function you choose. Use the help options to find a ranking function.</p>
 </div>

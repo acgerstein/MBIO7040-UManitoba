@@ -195,7 +195,7 @@ $(document).ready(function () {
 <ul>
 <li>Describe the difference between populations and samples</li>
 <li>Distinguish between data that follows a normal distribution and data that deviates in modality, skew, or kurtosis</li>
-<li>Define the difference between null and alterate hypothesis</li>
+<li>Define the difference between null and alternate hypothesis</li>
 <li>Define type I and type II error</li>
 <li>Describe the relationship between alpha, beta and power</li>
 </ul>
@@ -206,8 +206,8 @@ $(document).ready(function () {
 <p>Statistics is the science of collecting, organising, summarising, analyzing, and interpreting data. <em>Descriptive statistics</em> refers to summarising data with numbers or pictures while <em>inferential statistics</em> is about making conclusions or decisions based on data. Inferential statistics uses data from a sample to make inferences about a population.</p>
 <p>For example, if we are interested in the number of bacteria in a test tube, it is not possible to count every single individual cell. Instead, we could take a subset of the population and count it with a hemocytometer.</p>
 <div class="box">
-<h3 id="challenge">CHALLENGE</h3>
-<p>Thinka about the experiment of taking samples from the population to counting cells with a hemocytometer. What experimental details would help us to get a more accurate measurement from our samples of the true population size?</p>
+<h3 id="exercise">EXERCISE</h3>
+<p>Think about the experiment of taking samples from the population to counting cells with a hemocytometer. What experimental details would help us to get a more accurate measurement from our samples of the true population size?</p>
 </div>
 <p>The goal of statistics is to use imperfect information (our data) in order to infer facts, make decisions, and make predictions about the world.</p>
 <p>A <em>statistic</em> is a number or value measured within some particular context.</p>
@@ -256,7 +256,7 @@ SOURCE: <a href="http://vassarstats.net">Concepts and Applications of Inferentia
 <!-- https://towardsdatascience.com/data-types-in-statistics-347e152e8bee -->
 <p>The specific type of statistics required depends on the type of data, i.e., whether you have numerical (quantitative) or categorical data.</p>
 <p>Categorical data represent characteristics and can be thought of as ways to label the data. They can be broken down into two classes: <em>nominal</em> and <em>ordinal</em>. <em>Nominal</em> data has no quantitative value and have no inherent order (e.g., growth or no growth of a population in a given drug concentration). By contrast, <em>ordinal</em> data represents discrete and ordered units (e.g., level of growth of a mutant compared to wildtype such as +1, +2, etc.).</p>
-<p>There are also two categories of numerical data. It can be <em>discrete</em>, if the data can only take on certain values. This type of darta can be counted but not measured (e.g., the number of heads in 100 coin flips). By contrast, <em>continuous</em> data can be measured (e.g., CFU counts, growth rate).</p>
+<p>There are also two categories of numerical data. It can be <em>discrete</em>, if the data can only take on certain values. This type of data can be counted but not measured (e.g., the number of heads in 100 coin flips). By contrast, <em>continuous</em> data can be measured (e.g., CFU counts, growth rate).</p>
 </div>
 <div id="the-basics-of-hypothesis-testing" class="section level1">
 <h1>The basics of hypothesis testing</h1>
@@ -264,7 +264,7 @@ SOURCE: <a href="http://vassarstats.net">Concepts and Applications of Inferentia
 <p>In a hypothesis test, we use data from a sample to help us decide between two competing hypotheses about a population. We make these hypotheses more concrete by specifying them in terms of at least one population parameter of interest. We refer to the competing claims about the population as the null hypothesis, denoted by <span class="math inline">\(H_0\)</span>, and the alternative (or research) hypothesis, denoted by <span class="math inline">\(H_a\)</span>. The roles of these two hypotheses are NOT interchangeable.</p>
 <p>The claim for which we seek significant evidence is assigned to the alternative hypothesis. The alternative is usually what the experimenter or researcher wants to establish or find evidence for. Usually, the null hypothesis is a claim that there really is “no effect” or “no difference.” In many cases, the null hypothesis represents the status quo or that nothing interesting is happening. We assess the strength of evidence by assuming the null hypothesis is true and determining how unlikely it would be to see sample results/statistics as extreme (or more extreme) as those in the original sample.</p>
 <p>Hypothesis testing brings about many weird and incorrect notions in the scientific community and society at large. One reason for this is that statistics has traditionally been thought of as this magic box of algorithms and procedures to get to results and this has been readily apparent if you do a Google search of “flowchart statistics hypothesis tests.” There are so many different complex ways to determine which test is appropriate.</p>
-<p>You’ll see that we don’t need to rely on these complicated series of assumptions and procedures to conduct a hypothesis test any longer. These methods were introduced in a time when computers weren’t powerful. Your cellphone (in 2016) has more power than the computers that sent NASA astronauts to the moon after all. We’ll see that ALL hypothesis tests can be broken down into the following framework given by Allen Downey [here](<a href="http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html" class="uri">http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html</a>:</p>
+<p>You’ll see that we don’t need to rely on these complicated series of assumptions and procedures to conduct a hypothesis test any longer. These methods were introduced in a time when computers weren’t powerful. Your cellphone (in 2016) has more power than the computers that sent NASA astronauts to the moon after all. We’ll see that ALL hypothesis tests can be broken down into the following framework given by Allen Downey <a href="http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html">here</a>:</p>
 <div style="margin-bottom:20px;">
 
 </div>
@@ -314,12 +314,17 @@ SOURCE: <a href="http://vassarstats.net">Concepts and Applications of Inferentia
 
 </div>
 <p>Image source: unbiasedresearch.blogspot.com</p>
-<p>If we are using sample data to make inferences about a parameter, we run the risk of making a mistake. Obviously, we want to minimize our chance of error; we want a small probability of drawing an incorrect conclusion.</p>
-<p>The probability of a Type I Error occurring is denoted by <span class="math inline">\(\alpha\)</span> and is called the significance level of a hypothesis test The probability of a Type II Error is denoted by <span class="math inline">\(\beta\)</span>. <span class="math inline">\(\alpha\)</span> corresponds to the probability of rejecting <span class="math inline">\(H_0\)</span> when, in fact, <span class="math inline">\(H_0\)</span> is true.</p>
+<p>If we are using sample data to make inferences about a parameter, we run the risk of making a mistake. Obviously, we want to minimize our chance of error; we want a small probability of drawing an incorrect conclusion. A type I error is the rejection of a true null hypothesis (also known as a “false positive”), while a type II error is the failure to reject a false null hypothesis (also known as a “false negative”).</p>
+<p>The probability of a Type I Error occurring is denoted by <span class="math inline">\(\alpha\)</span> and is called the significance level of a hypothesis test.<br />
+The probability of a Type II Error is denoted by <span class="math inline">\(\beta\)</span>. <span class="math inline">\(\alpha\)</span> corresponds to the probability of rejecting <span class="math inline">\(H_0\)</span> when, in fact, <span class="math inline">\(H_0\)</span> is true.</p>
 <p><span class="math inline">\(\beta\)</span> corresponds to the probability of failing to reject <span class="math inline">\(H_0\)</span> when, in fact, <span class="math inline">\(H_0\)</span> is false. Ideally, we want<br />
 <span class="math inline">\(\alpha\)</span> = 0 and <span class="math inline">\(\beta\)</span> = 0, meaning that the chance of making an error does not exist. When we have to use incomplete information (sample data), it is not possible to have both <span class="math inline">\(\alpha\)</span> = 0 and <span class="math inline">\(\beta\)</span> = 0. We will always have the possibility of at least one error existing when we use sample data.</p>
 <p>Usually, what is done is that <span class="math inline">\(\alpha\)</span> is set before the hypothesis test is conducted and then the evidence is judged against that significance level. Common values for <span class="math inline">\(\alpha\)</span> are 0.05, 0.01, and 0.10. If <span class="math inline">\(\alpha\)</span> = 0.05, we are using a testing procedure that, used over and over with different samples, rejects a TRUE null hypothesis five percent of the time.</p>
-<p>So if we can set <span class="math inline">\(\alpha\)</span> to be whatever we want, why choose 0.05 instead of 0.01 or even better 0.0000000000000001? Well, a small <span class="math inline">\(\alpha\)</span> means the test procedure requires the evidence against <span class="math inline">\(H_0\)</span> to be very strong before we can reject<br />
+<div class="box">
+<h3 id="exercise-1">EXERCISE</h3>
+<p>So if we can set <span class="math inline">\(\alpha\)</span> to be whatever we want, why choose 0.05 instead of 0.01 or even better 0.0000000000000001?</p>
+</div>
+<p>Well, a small <span class="math inline">\(\alpha\)</span> means the test procedure requires the evidence against <span class="math inline">\(H_0\)</span> to be very strong before we can reject<br />
 <span class="math inline">\(H_0\)</span>. This means we will almost never reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(\alpha\)</span> is very small. If we almost never reject <span class="math inline">\(H_0\)</span>, the probability of a Type II Error – failing to reject <span class="math inline">\(H_0\)</span> when we should – will increase! Thus, as <span class="math inline">\(\alpha\)</span> decreases, <span class="math inline">\(\beta\)</span> increases and <span class="math inline">\(\alpha\)</span> increases, <span class="math inline">\(\beta\)</span> decreases. We therefore need to strike a balance, and 0.05, 0.01 and 0.1 usually lead to a nice balance.</p>
 </div>
 <div id="power" class="section level1">

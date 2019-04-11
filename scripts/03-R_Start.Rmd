@@ -92,12 +92,12 @@ weight_kg <- 100
 
 What do you think is the current content of the object `weight_lb`? 126.5 or 220?
 
-# Comments
+### Comments
 
 The comment character in `R` is `#`, anything to the right of a `#` in a script will be ignored by R. It is useful to leave notes, and explanations in your scripts. RStudio makes it easy to comment or uncomment a paragraph: after selecting the lines you want to comment, press at the same time on your keyboard `Ctrl + Shift + C`. If you only want to comment out one line, you can put the cursor at any location of that line (i.e. no need to select the whole line), then press `Ctrl + Shift + C`.
 
 <div class="box">
-### Challenge
+### EXERCISE
 What are the values stored in each object in the following (do this in your head)?
 
 ```{r}
@@ -243,7 +243,7 @@ Vectors are one of the many data structures that R uses. Other important ones ar
 
 <div class="box">
 
-### CHALLLENGE
+### EXERCISE
 
 * We’ve seen that atomic vectors can be of type character, numeric (or double), integer, and logical. But what happens if we try to mix these types in a single vector?
  
@@ -331,7 +331,7 @@ animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
 
 
 <div class="box">
-### CHALLENGE
+### EXERCISE
  
 * Can you figure out why "four" > "five" returns TRUE?
 
@@ -372,7 +372,7 @@ Recall that you can use the `typeof()` function to find the type of your atomic 
 
 
 <div class="box">
-### Challenge
+### EXERCISE
 
 1. Using this vector of heights in inches, create a new vector, `heights_no_na`, with the NAs removed.
 
@@ -421,6 +421,7 @@ Once Instagram is open on your phone, you can then proceed to share your photo w
 
 Let’s now show you how to perform these two steps for the `tidyverse` metapackage (package of packages).
 
+<div class = "boxGrey">
 There are two ways to install an R package. For example, to install the `tidyverse` package:
 
 1. **Easy way**: In the Files pane of RStudio:
@@ -429,14 +430,15 @@ There are two ways to install an R package. For example, to install the `tidyver
     c. Type the name of the package under “Packages (separate multiple with space or comma):” In this case, type `tidyverese`
     d. Click “Install”
     
-2. **Slightly harder way**: An alternative but slightly less convenient way to install a package is by typing `install.packages("tidyverse")` in the Console pane of RStudio and hitting enter. Note you must include the quotation marks.    
+2. **Slightly harder way**: An alternative way to install a package is by typing `install.packages("tidyverse")` in the Console pane of RStudio and hitting enter. Note you must include the quotation marks.    
+
 Much like an app on your phone, you only have to install a package once. However, if you want to update an already installed package to a newer version, you need to re-install it by repeating the above steps.
 
-<div class="box">
+</div>
 
 ### EXERCISE
 
-Practice what you have just done and install the R package `here`
+Practice what you have just done and install the R package `here`.
 
 </div>
 

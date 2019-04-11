@@ -159,7 +159,7 @@ Your working directory should now look like this:
 <div style="margin-bottom:50px;">
 </div>
 ```{r, echo=FALSE, out.width = '75%', fig.pos = "H", fig.align = "center"}
-knitr::include_graphics(here("Images", "current_directory.png"))
+knitr::include_graphics(here("Images", "setup-RProj.png"))
 ```
 <div style="margin-bottom:50px;">
 </div>

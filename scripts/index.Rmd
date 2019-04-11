@@ -18,13 +18,15 @@ knitr::opts_chunk$set(echo = TRUE)
 ### 1. [Spreadsheets](./01-Spreadsheets.html)  
 *  Implement best practices in data table formatting  
 *  Identify and address common formatting mistakes  
+
 Download the data for the spreadsheet exercise [here](https://ndownloader.figshare.com/files/2252083).
 
 ### 2. [Why R (and R Studio)?](./02-Intro.html)
 *  Describe the purpose of the RStudio Script, Console, Environment, and Plots panes.
 *  Organize files and directories for a set of analyses as an R Project, and understand the purpose of the working directory.
 *  Use the built-in RStudio help interface to search for more information on R functions.
-*  Demonstrate how to provide sufficient information for troubleshooting with the R user community.
+*  Demonstrate how to provide sufficient information for troubleshooting with the R user community.  
+
 Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 
 ### 3. [Introduction to R](./03-R_Start.html)  
@@ -52,3 +54,19 @@ Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 *  Employ the ‘mutate’ function to apply other chosen functions to existing columns and create new columns of data.  
 *  Employ the ‘split-apply-combine’ concept to split the data into groups, apply analysis to each group, and combine the results.  
 *  Convert tibbles from long to wide and back again
+
+### 6. [Introduction to Statistics](./06-introStats.html)
+*  Describe the difference between populations and samples  
+*  Distinguish between data that follows a normal distribution and data that deviates in modality, skew, or kurtosis  
+*  Define the difference between null and alternate hypothesis  
+*  Define type I and type II error  
+*  Describe the relationship between alpha, beta and power  
+
+### 7. [Exploratory Data Analysis](./7-EDA-i.html)
+* Produce histograms, barplot, boxplots, violin plots and scatterplots plot using ggplot.
+* Describe what faceting is and apply faceting in ggplot.
+* Modify the aesthetics of an existing ggplot plot (including axis labels and color).
+* Build complex and customized plots from data in a data frame.
+* Be wowed by the power of R and compelled to keep using it after this workshop
+
+### [Post-Workshop Survey (please do this before you leave the room)](https://www.microstatslab.ca/mbio7040-post-workshop-survey.html)  

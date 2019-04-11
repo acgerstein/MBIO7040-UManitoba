@@ -20,7 +20,7 @@ library(tidyverse)
 
 * Describe the difference between populations and samples
 * Distinguish between data that follows a normal distribution and data that deviates in modality, skew, or kurtosis
-* Define the difference between null and alterate hypothesis
+* Define the difference between null and alternate hypothesis
 * Define type I and type II error
 * Describe the relationship between alpha, beta and power
 
@@ -41,9 +41,9 @@ For example, if we are interested in the number of bacteria in a test tube, it i
 
 <div class= "box">
 
-### CHALLENGE
+### EXERCISE
 
-Thinka about the experiment of taking samples from the population to counting cells with a hemocytometer. What experimental details would help us to get a more accurate measurement from our samples of the true population size?
+Think about the experiment of taking samples from the population to counting cells with a hemocytometer. What experimental details would help us to get a more accurate measurement from our samples of the true population size?
 
 </div>
 
@@ -108,7 +108,7 @@ The specific type of statistics required depends on the type of data, i.e., whet
 
 Categorical data represent characteristics and can be thought of as ways to label the data. They can be broken down into two classes: *nominal* and *ordinal*. *Nominal* data has no quantitative value and have no inherent order (e.g., growth or no growth of a population in a given drug concentration). By contrast, *ordinal* data represents discrete and ordered units (e.g., level of growth of a mutant compared to wildtype such as +1, +2, etc.).
 
-There are also two categories of numerical data. It can be *discrete*, if the data can only take on certain values. This type of darta can be counted but not measured (e.g., the number of heads in 100 coin flips). By contrast, *continuous* data can be measured (e.g., CFU counts, growth rate). 
+There are also two categories of numerical data. It can be *discrete*, if the data can only take on certain values. This type of data can be counted but not measured (e.g., the number of heads in 100 coin flips). By contrast, *continuous* data can be measured (e.g., CFU counts, growth rate). 
 
 # The basics of hypothesis testing
 SOURCE: [Modern Dive, Chapter 10](https://moderndive.com/10-hypothesis-testing.html)
@@ -119,7 +119,7 @@ The claim for which we seek significant evidence is assigned to the alternative 
 
 Hypothesis testing brings about many weird and incorrect notions in the scientific community and society at large. One reason for this is that statistics has traditionally been thought of as this magic box of algorithms and procedures to get to results and this has been readily apparent if you do a Google search of “flowchart statistics hypothesis tests.” There are so many different complex ways to determine which test is appropriate.
 
-You’ll see that we don’t need to rely on these complicated series of assumptions and procedures to conduct a hypothesis test any longer. These methods were introduced in a time when computers weren’t powerful. Your cellphone (in 2016) has more power than the computers that sent NASA astronauts to the moon after all. We’ll see that ALL hypothesis tests can be broken down into the following framework given by Allen Downey [here](http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html:
+You’ll see that we don’t need to rely on these complicated series of assumptions and procedures to conduct a hypothesis test any longer. These methods were introduced in a time when computers weren’t powerful. Your cellphone (in 2016) has more power than the computers that sent NASA astronauts to the moon after all. We’ll see that ALL hypothesis tests can be broken down into the following framework given by Allen Downey [here](http://allendowney.blogspot.com/2016/06/there-is-still-only-one-test.html):
 
 <div style="margin-bottom:20px;">
 </div>
@@ -172,9 +172,9 @@ knitr::include_graphics(here("Images", "typeItypeII.jpg"))
 </div>
 Image source: unbiasedresearch.blogspot.com
 
-If we are using sample data to make inferences about a parameter, we run the risk of making a mistake. Obviously, we want to minimize our chance of error; we want a small probability of drawing an incorrect conclusion.
+If we are using sample data to make inferences about a parameter, we run the risk of making a mistake. Obviously, we want to minimize our chance of error; we want a small probability of drawing an incorrect conclusion. A type I error is the rejection of a true null hypothesis (also known as a "false positive"), while a type II error is the failure to reject a false null hypothesis (also known as a "false negative").
 
-The probability of a Type I Error occurring is denoted by $\alpha$ and is called the significance level of a hypothesis test
+The probability of a Type I Error occurring is denoted by $\alpha$ and is called the significance level of a hypothesis test.  
 The probability of a Type II Error is denoted by $\beta$. $\alpha$ corresponds to the probability of rejecting $H_0$ when, in fact, $H_0$ is true. 
 
 $\beta$ corresponds to the probability of failing to reject $H_0$ when, in fact, $H_0$ is false. Ideally, we want  
@@ -182,7 +182,16 @@ $\alpha$ = 0 and $\beta$ = 0, meaning that the chance of making an error does no
 
 Usually, what is done is that $\alpha$ is set before the hypothesis test is conducted and then the evidence is judged against that significance level. Common values for $\alpha$ are 0.05, 0.01, and 0.10. If $\alpha$ = 0.05, we are using a testing procedure that, used over and over with different samples, rejects a TRUE null hypothesis five percent of the time.
 
-So if we can set $\alpha$ to be whatever we want, why choose 0.05 instead of 0.01 or even better 0.0000000000000001? Well, a small $\alpha$ means the test procedure requires the evidence against $H_0$ to be very strong before we can reject  
+
+
+<div class = "box">
+### EXERCISE
+
+So if we can set $\alpha$ to be whatever we want, why choose 0.05 instead of 0.01 or even better 0.0000000000000001? 
+
+</div>
+
+Well, a small $\alpha$ means the test procedure requires the evidence against $H_0$ to be very strong before we can reject  
 $H_0$. This means we will almost never reject $H_0$ if $\alpha$ is very small. If we almost never reject $H_0$, the probability of a Type II Error – failing to reject $H_0$ when we should – will increase! Thus, as $\alpha$ decreases, $\beta$ increases and $\alpha$ increases, $\beta$ decreases. We therefore need to strike a balance, and 0.05, 0.01 and 0.1 usually lead to a nice balance. 
 
 # Power

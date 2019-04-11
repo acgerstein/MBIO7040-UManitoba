@@ -1,5 +1,5 @@
 ---
-title: "Data Start"
+title: "Starting with Data"
 output:
   html_document:
     theme: cerulean
@@ -37,6 +37,7 @@ knitr::kable(
   tibble(Column=	c("sample", "generation", "clade", "strain", "cit", "run", "genome_size"), Description = c("clone name", "generation when sample frozen", "based on a parsimony tree", "ancestral strain", "citrate-using mutant status", "sequence read archive sample ID", "size in Mbp (made up for this lesson)")), caption = 'Data dictionary.'
 ) 
 ```
+
 
 Note this type of information is often called *metadata* and this table refereed to as a *data dictionary*.
 
@@ -76,7 +77,8 @@ Ecoli_citrate
 ```
 
 <div class ="box">
-### Using the GUI interface: Exercise
+### EXERCISE
+Using the GUI interface:   
 1. Go to the Files panel of RStudio.   
 2. Navigate to the directory i.e. folder on your computer where the downloaded `Ecoli_citrate.csv` file is saved.  
 3. Click on Ecoli_citrate.csv  
@@ -84,12 +86,12 @@ Ecoli_citrate
 
 At this point you should see an image like this:
 
-<div style="margin-bottom:50px;">
+<div style="margin-bottom:20px;">
 </div>
 ```{r, echo=FALSE, out.width = '100%', fig.pos = "H", fig.align="center"}
 knitr::include_graphics(here("Images", "citrate_GUI.png"))
 ```
-<div style="margin-bottom:50px;">
+<div style="margin-bottom:20px;">
 </div>
 
 After clicking on the “Import” button on the bottom right RStudio, RStudio will save this spreadsheet’s data in a data frame called `Ecoli_citrate` and display its contents in the spreadsheet viewer. Furthermore, note in the bottom right of the above image there exists a “Code Preview”: you can copy and paste this code to reload your data again later automatically instead of repeating the above manual point-and-click process.
