@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(here)
 ```
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
 
 ---
 
@@ -270,4 +271,4 @@ The R-help mailing list: it is read by a lot of people (including most of the R 
     * The rOpensci blog on [“How to ask questions so they get answered”](https://ropensci.org/commcalls/2017-03-07/) and ["video recording"](https://vimeo.com/208749032) includes a presentation of the reprex package and of its philosophy.
 
 # Attribution
-Based on largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). 
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba. It is sourced from material from [The Carpentries](https://carpentries.org/) ['before we start' lesson](https://datacarpentry.org/R-ecology-lesson/00-before-we-start.html). Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).

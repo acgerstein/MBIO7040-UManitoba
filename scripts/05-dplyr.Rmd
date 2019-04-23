@@ -6,6 +6,8 @@ output:
     df_print: default
 ---
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
+
 <link rel="stylesheet" type="text/css" href="style.css">
 
 <!-- From https://stackoverflow.com/a/37839683/1297830 -->
@@ -275,4 +277,5 @@ count_long
 * Use `mutate()` to create new variables.
 
 # Attribution
-Based largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html). The material is compiled from workshop materials located  [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). Much of that was copied or adapted from [Jeff Hollister’s materials](http://usepa.github.io/introR/2015/01/14/03-Clean/).
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba. It is based largely on material from [The Carpentries](https://carpentries.org/) and compiled from workshop materials located  [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). Much of that was copied or adapted from [Jeff Hollister’s materials](http://usepa.github.io/introR/2015/01/14/03-Clean/).
+Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).

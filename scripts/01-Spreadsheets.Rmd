@@ -5,6 +5,8 @@ output:
     theme: cerulean
 ---
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
+
 <link rel="stylesheet" type="text/css" href="style.css">
 
 ```{r setup, include=FALSE}
@@ -135,7 +137,7 @@ Making small changes to the way you format your data in spreadsheets, can have a
 
 # Attribution
 
-Based on largely on material from [The Carpentries](https://carpentries.org/), Lesson on [Data Organization in Spreadsheets for Ecologists](https://datacarpentry.org/spreadsheet-ecology-lesson/). Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). 
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba. It is based largely on material from [The Carpentries](https://carpentries.org/) lesson on [Data Organization in Spreadsheets for Ecologists](https://datacarpentry.org/spreadsheet-ecology-lesson/). Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).
 
 
 

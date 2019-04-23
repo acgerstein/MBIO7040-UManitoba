@@ -5,6 +5,8 @@ output:
     theme: cerulean
 ---
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
+
 <link rel="stylesheet" type="text/css" href="style.css">
 
 ```{r setup, include=FALSE}
@@ -215,8 +217,9 @@ However, from the discussion of the tradeoff between $\alpha$ and $\beta$ hopefu
 For the rest of this workshop we will link statistical analysis to data visualization, with the goal to show that both in tandem can tell us the stories that lie in our data.
 
 # Attributes
-[Modern Dive](https://moderndive.com)   
-[Diva Jain](https://codeburst.io/2-important-statistics-terms-you-need-to-know-in-data-science-skewness-and-kurtosis-388fef94eeaa)   
-[Introduction to Statistical Ideas and Methods online modules](https://stats.onlinelearning.utoronto.ca/) distributed under a [Creative Commons BY-NC 4.0 license](https://creativecommons.org/licenses/by-nc/4.0/)  
-[Statistics Teacher: What is power?](http://www.statisticsteacher.org/2017/09/15/what-is-power/)   
-[Concepts and Applications of Inferential Statistics](http://vassarstats.net), Towards Data Science [blog post](https://towardsdatascience.com/intro-to-descriptive-statistics-252e9c464ac9) and [blog post](https://towardsdatascience.com/data-types-in-statistics-347e152e8bee)
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba based on material from:
+[Modern Dive](https://moderndive.com),    
+[Diva Jain](https://codeburst.io/2-important-statistics-terms-you-need-to-know-in-data-science-skewness-and-kurtosis-388fef94eeaa),
+[Introduction to Statistical Ideas and Methods online modules](https://stats.onlinelearning.utoronto.ca/), [Statistics Teacher: What is power?](http://www.statisticsteacher.org/2017/09/15/what-is-power/), [Concepts and Applications of Inferential Statistics](http://vassarstats.net), Towards Data Science [blog post](https://towardsdatascience.com/intro-to-descriptive-statistics-252e9c464ac9), and [blog post](https://towardsdatascience.com/data-types-in-statistics-347e152e8bee).
+
+Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).

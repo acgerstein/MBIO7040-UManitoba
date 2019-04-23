@@ -14,6 +14,8 @@ library(tidyverse)
 library(kableExtra)
 ```
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
+
 ---
 
 <div class="alert alert-info">
@@ -238,5 +240,5 @@ Tibbles behave more consistently than data frames when subsetting with `[]`; thi
 `read_csv()` will always read variables containing text as character variables. In contrast, the base R function `read.csv()` will, by default, convert any character variable to a factor. This is often not what you want, and can be overridden by passing the option `stringsAsFactors = FALSE` to `read.csv()`.
 
 # Attribution
-Based largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). The material is compiled from workshop materials located [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). The section on `read_csv` vs. `read.csv` is from ["From Modern Dive Section 5.1"](https://moderndive.com/5-tidy.html#tidy)
-
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba. It is based largely on material from [The Carpentries](https://carpentries.org/). The material is compiled from workshop materials located [here](https://uomresearchit.github.io/r-day-workshop/) and [here](https://datacarpentry.org/R-genomics/02-starting-with-data.html). The section on `read_csv` vs. `read.csv` is from [`Modern Dive Section 5.`](https://moderndive.com/5-tidy.html#tidy)
+Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).

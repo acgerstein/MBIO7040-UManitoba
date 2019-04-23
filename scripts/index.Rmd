@@ -62,11 +62,26 @@ Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 *  Define type I and type II error  
 *  Describe the relationship between alpha, beta and power  
 
-### 7. [Exploratory Data Analysis](./7-EDA-i.html)
+### 7. [Exploratory Data Analysis](./07-EDA.html)
 * Produce histograms, barplot, boxplots, violin plots and scatterplots plot using ggplot.
 * Describe what faceting is and apply faceting in ggplot.
 * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
 * Build complex and customized plots from data in a data frame.
 * Be wowed by the power of R and compelled to keep using it after this workshop
 
-### [Post-Workshop Survey (please do this before you leave the room)](https://www.microstatslab.ca/mbio7040-post-workshop-survey.html)  
+Download the Day 2 Code Handout Skeleton [here](./Day2_code_handout_skeleton.R)
+Download the Day 2 Code Handout [here](./Day2_code_handout.R)
+
+### [Post-Workshop Survey (please do this before you leave the room)](https://www.microstatslab.ca/mbio7040-post-workshop-survey.html) 
+
+### So you want to learn more?
+* [R for Data Science book](https://r4ds.had.co.nz/)  
+
+* [More R in a course: UBC Stats 545](https://stat545.com/)  
+
+* [Modern Dive data science statistics textbook](https://moderndive.com/)  
+
+* [More biostats in a course: UBC Zoology 501](https://www.zoology.ubc.ca/~schluter/R/)  
+
+### RMD files
+Markdown files are available on [github](https://github.com/acgerstein/MBIO7040-UManitoba)

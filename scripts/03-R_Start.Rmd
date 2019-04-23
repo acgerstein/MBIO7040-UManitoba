@@ -12,6 +12,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(here)
 ```
 
+<!-- This file was adapted by Aleeza Gerstein from the attributions listed below. It is licensed under a Creative Commons Attribution 4.0 International License. -->
+
 ---
 
 <div class="alert alert-info">
@@ -469,4 +471,4 @@ Error: could not find function
 R is telling you that you are trying to use a function in a package that has not yet been “loaded.” Almost all new users forget do this when starting out, and it is a little annoying to get used. to However, you’ll remember with practice.
 
 # Attribution
-Based largely on material from [The Carpentries](https://carpentries.org/) made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). 
+This lesson was created by [Aleeza Gerstein](https://microstatslab.ca) at the University of Manitoba. It is sourced from material from [The Carpentries](https://carpentries.org/) [introductory lesson](https://datacarpentry.org/R-ecology-lesson/01-intro-to-r.html). Made available under the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/). [License](https://datacarpentry.org/R-genomics/LICENSE.html).
