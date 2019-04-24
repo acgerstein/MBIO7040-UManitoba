@@ -16,12 +16,14 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Workshop Lessons:  
 
 ### 1. [Spreadsheets](./01-Spreadsheets.html)  
+(~ 30 minutes)  
 *  Implement best practices in data table formatting  
 *  Identify and address common formatting mistakes  
 
 Download the data for the spreadsheet exercise [here](https://ndownloader.figshare.com/files/2252083).
 
 ### 2. [Why R (and R Studio)?](./02-Intro.html)
+(~ 60 minutes)  
 *  Describe the purpose of the RStudio Script, Console, Environment, and Plots panes.
 *  Organize files and directories for a set of analyses as an R Project, and understand the purpose of the working directory.
 *  Use the built-in RStudio help interface to search for more information on R functions.
@@ -30,6 +32,7 @@ Download the data for the spreadsheet exercise [here](https://ndownloader.figsha
 Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 
 ### 3. [Introduction to R](./03-R_Start.html)  
+(~ 45 minutes)  
 *  Define the following terms as they relate to R: object, assign, call, function, arguments, options.   
 *  Assign values to objects in R.   
 *  Learn how to name objects   
@@ -41,13 +44,15 @@ Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 *  Analyze vectors with missing data. 
 
 ### 4. [Starting with Data](./04-Data_Start.html)  
+(~ 60 minutes)  
 *  Describe what the `here` package does
 *  Read in tibbles
 *  Compare `read_csv` to `read.csv`
 *  Extract values from tibbles
 *  Perform basic operations on columns in a tibble.
 
-### 5. [Manipulating Data with dplyr](./05-dplyr.html)  
+### 5. [Manipulating Data with dplyr](./05-dplyr.html)   
+(~ 90 minutes)  
 *  Describe what the dplyr package in R is used for.  
 *  Apply common dplyr functions to manipulate data in R.  
 *  Employ the ‘pipe’ operator to link together a sequence of functions.  
@@ -55,14 +60,16 @@ Download the Day 1 Code Handout [here](./Day1_code_handout.R)
 *  Employ the ‘split-apply-combine’ concept to split the data into groups, apply analysis to each group, and combine the results.  
 *  Convert tibbles from long to wide and back again
 
-### 6. [Introduction to Statistics](./06-introStats.html)
+### 6. [Introduction to Statistics](./06-introStats.html)  
+(~ 40 minutes)  
 *  Describe the difference between populations and samples  
 *  Distinguish between data that follows a normal distribution and data that deviates in modality, skew, or kurtosis  
 *  Define the difference between null and alternate hypothesis  
 *  Define type I and type II error  
 *  Describe the relationship between alpha, beta and power  
 
-### 7. [Exploratory Data Analysis](./07-EDA.html)
+### 7. [Exploratory Data Analysis](./07-EDA.html)  
+(~ 180 minutes)  
 * Produce histograms, barplot, boxplots, violin plots and scatterplots plot using ggplot.
 * Describe what faceting is and apply faceting in ggplot.
 * Modify the aesthetics of an existing ggplot plot (including axis labels and color).
@@ -84,4 +91,4 @@ Download the Day 2 Code Handout [here](./Day2_code_handout.R)
 * [More biostats in a course: UBC Zoology 501](https://www.zoology.ubc.ca/~schluter/R/)  
 
 ### RMD files
-Markdown files are available on [github](https://github.com/acgerstein/MBIO7040-UManitoba)
+Markdown files are available on the course [github](https://github.com/acgerstein/MBIO7040-UManitoba) repo in the `scripts` directory. This wosrkshop/course is actively being revised, any suggestions are welcome (please submit as github issue).
